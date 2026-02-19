@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ThemeToggle from "../ThemeToggle";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -16,6 +16,37 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     await supabase.auth.signOut();
     router.push("/login");
   };
+
+  // Auto-logout after 30 minutes of inactivity
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        handleLogout();
+      }, 30 * 60 * 1000); // 30 minutes
+    };
+
+    // Events to track activity
+    const events = ["mousemove", "keydown", "click", "scroll"];
+
+    // Set up listeners
+    events.forEach(event => {
+      window.addEventListener(event, resetTimer);
+    });
+
+    // Initial start
+    resetTimer();
+
+    // Cleanup
+    return () => {
+      clearTimeout(timeoutId);
+      events.forEach(event => {
+        window.removeEventListener(event, resetTimer);
+      });
+    };
+  }, [router]);
 
   const toggleGroup = (group: string) => {
     setOpenGroup(prev => (prev === group ? null : group));

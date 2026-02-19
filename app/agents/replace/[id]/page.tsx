@@ -52,41 +52,52 @@ export default function ReplaceAgentPage() {
 
   return (
     <AdminLayout>
-      <h1 className="text-2xl font-bold mb-6">
+      <h1 className="text-2xl font-bold mb-6 bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent dark:from-green-400 dark:to-teal-400">
         Replace Agent ({oldAgentId})
       </h1>
 
-      <div className="bg-white p-6 rounded shadow w-96 space-y-4">
-        <input
-          type="text"
-          placeholder="New Agent ID"
-          className="w-full border p-2 rounded"
-          value={newAgentId}
-          onChange={(e) => setNewAgentId(e.target.value)}
-        />
+      <div className="bg-white dark:bg-white/5 p-8 rounded-2xl shadow-lg w-full max-w-md space-y-6 border border-gray-100 dark:border-white/10 transition-colors">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">New Agent ID</label>
+          <input
+            type="text"
+            placeholder="New Agent ID"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-white dark:bg-black/20 text-gray-900 dark:text-white placeholder-gray-400"
+            value={newAgentId}
+            onChange={(e) => setNewAgentId(e.target.value)}
+          />
+        </div>
 
-        <input
-          type="text"
-          placeholder="New Agent Name"
-          className="w-full border p-2 rounded"
-          value={newAgentName}
-          onChange={(e) => setNewAgentName(e.target.value)}
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">New Agent Name</label>
+          <input
+            type="text"
+            placeholder="New Agent Name"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-white dark:bg-black/20 text-gray-900 dark:text-white placeholder-gray-400"
+            value={newAgentName}
+            onChange={(e) => setNewAgentName(e.target.value)}
+          />
+        </div>
 
-        <input
-          type="date"
-          className="w-full border p-2 rounded"
-          value={joiningDate}
-          onChange={(e) => setJoiningDate(e.target.value)}
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Joining Date</label>
+          <input
+            type="date"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-white dark:bg-black/20 text-gray-900 dark:text-white placeholder-gray-400"
+            value={joiningDate}
+            onChange={(e) => setJoiningDate(e.target.value)}
+          />
+        </div>
 
-        <p className="text-sm text-gray-600">
-          Device: {deviceId}
-        </p>
+        <div className="bg-gray-50 dark:bg-white/5 p-4 rounded-lg border border-gray-100 dark:border-white/5">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            <span className="font-semibold text-gray-900 dark:text-gray-200">Current Device:</span> {deviceId}
+          </p>
+        </div>
 
         <button
           onClick={handleReplace}
-          className="w-full bg-black text-white p-2 rounded"
+          className="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-teal-700 transition shadow-lg hover:shadow-xl"
         >
           Replace Agent
         </button>
