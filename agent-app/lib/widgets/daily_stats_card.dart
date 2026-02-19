@@ -18,14 +18,16 @@ class DailyStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: highlight ? AppColors.primaryContainer : AppColors.surface,
+        color: highlight ? colorScheme.primaryContainer : colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         border: highlight
             ? null
-            : Border.all(color: AppColors.outline.withOpacity(0.2)),
+            : Border.all(color: colorScheme.outline.withOpacity(0.2)),
         boxShadow: highlight
             ? null
             : [
@@ -46,8 +48,8 @@ class DailyStatsCard extends StatelessWidget {
               fontWeight: FontWeight.w600,
               letterSpacing: 0.5,
               color: highlight
-                  ? AppColors.onPrimaryContainer.withOpacity(0.7)
-                  : AppColors.outline,
+                  ? colorScheme.onPrimaryContainer.withOpacity(0.7)
+                  : colorScheme.outline,
             ),
           ),
           const Spacer(),
@@ -57,8 +59,8 @@ class DailyStatsCard extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: highlight
-                  ? AppColors.onPrimaryContainer
-                  : AppColors.onSurface,
+                  ? colorScheme.onPrimaryContainer
+                  : colorScheme.onSurface,
             ),
           ),
           if (subtext != null) ...[
@@ -68,8 +70,8 @@ class DailyStatsCard extends StatelessWidget {
               style: GoogleFonts.outfit(
                 fontSize: 10,
                 color: highlight
-                    ? AppColors.onPrimaryContainer.withOpacity(0.8)
-                    : AppColors.outline,
+                    ? colorScheme.onPrimaryContainer.withOpacity(0.8)
+                    : colorScheme.outline,
               ),
             ),
           ],

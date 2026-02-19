@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -52,7 +54,6 @@ class _ProfileTabState extends State<ProfileTab> {
   Future<void> _handleLogout() async {
     await Supabase.instance.client.auth.signOut();
     if (mounted) {
-      // Navigate back to login (handled by AuthGate usually, but manual push helps UX)
       Navigator.of(context).pushReplacementNamed('/login');
     }
   }
@@ -65,16 +66,31 @@ class _ProfileTabState extends State<ProfileTab> {
 
     final name = _agent?['agent_name'] ?? 'Agent';
     final id = _agent?['agent_id'] ?? 'Unknown ID';
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        title: Text('Profile', style: GoogleFonts.outfit(fontWeight: FontWeight.bold)),
-        backgroundColor: AppColors.background,
+        title: Text('Profile', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, color: colorScheme.onBackground)),
+        backgroundColor: colorScheme.background,
         elevation: 0,
         actions: [
+          // Theme Toggle Icon
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return IconButton(
+                icon: Icon(
+                  themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                  color: colorScheme.primary,
+                ),
+                onPressed: () {
+                  themeProvider.toggleTheme(!themeProvider.isDarkMode);
+                },
+              );
+            },
+          ),
           IconButton(
-            icon: const Icon(Icons.logout, color: AppColors.error),
+            icon: Icon(Icons.logout, color: colorScheme.error),
             onPressed: _handleLogout,
             tooltip: 'Logout',
           ),
@@ -89,9 +105,9 @@ class _ProfileTabState extends State<ProfileTab> {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: AppColors.secondaryContainer,
+                color: colorScheme.secondaryContainer,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.onSecondaryContainer, width: 2),
+                border: Border.all(color: colorScheme.onSecondaryContainer, width: 2),
               ),
               child: Center(
                 child: Text(
@@ -99,7 +115,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   style: GoogleFonts.outfit(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.onSecondaryContainer,
+                    color: colorScheme.onSecondaryContainer,
                   ),
                 ),
               ),
@@ -110,14 +126,14 @@ class _ProfileTabState extends State<ProfileTab> {
               style: GoogleFonts.outfit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppColors.onBackground,
+                color: colorScheme.onBackground,
               ),
             ),
             Text(
               id,
               style: GoogleFonts.outfit(
                 fontSize: 16,
-                color: AppColors.outline,
+                color: colorScheme.outline,
               ),
             ),
             const SizedBox(height: 32),
@@ -125,16 +141,16 @@ class _ProfileTabState extends State<ProfileTab> {
             // Details Card
             Container(
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.outline.withOpacity(0.2)),
+                border: Border.all(color: colorScheme.outline.withOpacity(0.2)),
               ),
               child: Column(
                 children: [
                    _buildProfileRow(Icons.phone_android, 'Device ID', _agent?['assigned_device_id'] ?? 'Not Assigned'),
-                   const Divider(height: 1, indent: 56),
+                   Divider(height: 1, indent: 56, color: colorScheme.outline.withOpacity(0.1)),
                    _buildProfileRow(Icons.call, 'Contact', _agent?['contact_no'] ?? 'N/A'),
-                   const Divider(height: 1, indent: 56),
+                   Divider(height: 1, indent: 56, color: colorScheme.outline.withOpacity(0.1)),
                    _buildProfileRow(Icons.calendar_today, 'Joining Date', _agent?['joining_date'] ?? 'N/A'),
                 ],
               ),
@@ -144,35 +160,60 @@ class _ProfileTabState extends State<ProfileTab> {
             // Actions Card
             Container(
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.outline.withOpacity(0.2)),
+                border: Border.all(color: colorScheme.outline.withOpacity(0.2)),
               ),
-              child: ListTile(
-                leading: const Icon(Icons.lock_reset, color: AppColors.secondary),
-                title: Text(
-                  'Change Password',
-                  style: GoogleFonts.outfit(fontWeight: FontWeight.w500),
-                ),
-                trailing: const Icon(Icons.chevron_right, color: AppColors.outline),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const ChangePasswordScreen(isForced: false)),
-                  );
-                },
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.lock_reset, color: colorScheme.secondary),
+                    title: Text(
+                      'Change Password',
+                      style: GoogleFonts.outfit(fontWeight: FontWeight.w500, color: colorScheme.onSurface),
+                    ),
+                    trailing: Icon(Icons.chevron_right, color: colorScheme.outline),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const ChangePasswordScreen(isForced: false)),
+                      );
+                    },
+                  ),
+                  Divider(height: 1, indent: 56, color: colorScheme.outline.withOpacity(0.1)),
+                  // Dark Mode Toggle List Tile
+                  Consumer<ThemeProvider>(
+                    builder: (context, themeProvider, child) {
+                      return SwitchListTile(
+                        title: Text(
+                          'Dark Mode',
+                          style: GoogleFonts.outfit(fontWeight: FontWeight.w500, color: colorScheme.onSurface),
+                        ),
+                        secondary: Icon(
+                          themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                          color: colorScheme.primary,
+                        ),
+                        value: themeProvider.isDarkMode,
+                        onChanged: (value) {
+                          themeProvider.toggleTheme(value);
+                        },
+                        activeColor: colorScheme.primary,
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
 
             const SizedBox(height: 40),
 
-            // Logout Button (Text based)
+            // Logout Button
             TextButton.icon(
               onPressed: _handleLogout,
-              icon: const Icon(Icons.logout, color: AppColors.error),
+              icon: Icon(Icons.logout, color: colorScheme.error),
               label: Text(
                 'Sign Out',
                 style: GoogleFonts.outfit(
-                  color: AppColors.error,
+                  color: colorScheme.error,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -182,7 +223,7 @@ class _ProfileTabState extends State<ProfileTab> {
              const SizedBox(height: 20),
              Text(
               'App Version 1.0.0',
-              style: GoogleFonts.outfit(color: AppColors.outline, fontSize: 12),
+              style: GoogleFonts.outfit(color: colorScheme.outline, fontSize: 12),
             ),
           ],
         ),
@@ -191,11 +232,12 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   Widget _buildProfileRow(IconData icon, String label, String value) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Icon(icon, color: AppColors.secondary, size: 20),
+          Icon(icon, color: colorScheme.secondary, size: 20),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -206,7 +248,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   style: GoogleFonts.outfit(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.outline,
+                    color: colorScheme.outline,
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -215,7 +257,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   value,
                   style: GoogleFonts.outfit(
                     fontSize: 16,
-                    color: AppColors.onSurface,
+                    color: colorScheme.onSurface,
                   ),
                 ),
               ],

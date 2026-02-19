@@ -71,14 +71,14 @@ export default function ResetPasswordPage() {
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
                     Agent Password Reset
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                     Reset an agent's password to the default <strong>uco@rcds</strong>.
                 </p>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
                 <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                         Agent ID
                     </label>
                     <div className="flex gap-4">
@@ -91,7 +91,7 @@ export default function ResetPasswordPage() {
                                 setMessage(null);
                             }}
                             placeholder="e.g., 1001"
-                            className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-green-500 transition"
+                            className="flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:border-green-500 dark:focus:border-green-400 transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                         <button
                             onClick={handleVerify}
@@ -104,10 +104,10 @@ export default function ResetPasswordPage() {
                 </div>
 
                 {agentName && (
-                    <div className="mb-8 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between">
+                    <div className="mb-8 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-green-800 font-medium">Agent Name</p>
-                            <p className="text-xl font-bold text-green-900">{agentName}</p>
+                            <p className="text-sm text-green-800 dark:text-green-300 font-medium">Agent Name</p>
+                            <p className="text-xl font-bold text-green-900 dark:text-green-100">{agentName}</p>
                         </div>
                         <div className="text-3xl">👤</div>
                     </div>
@@ -128,8 +128,8 @@ export default function ResetPasswordPage() {
                 {message && (
                     <div
                         className={`mt-6 p-4 rounded-lg border ${message.type === "success"
-                                ? "bg-green-50 border-green-200 text-green-800"
-                                : "bg-red-50 border-red-200 text-red-800"
+                            ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
+                            : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
                             }`}
                     >
                         <div className="flex items-start gap-3">

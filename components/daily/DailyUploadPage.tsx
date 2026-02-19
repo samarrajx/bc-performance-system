@@ -155,15 +155,15 @@ export default function DailyUploadPage() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent mb-2">
           Daily Performance Upload
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           Upload daily performance data for all agents
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         {/* Date Selection */}
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
             Performance Date
           </label>
           <input
@@ -171,7 +171,7 @@ export default function DailyUploadPage() {
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition disabled:opacity-50"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50"
           />
         </div>
 
@@ -189,7 +189,7 @@ export default function DailyUploadPage() {
 
         {/* File Upload */}
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
             Upload Performance File
           </label>
           <input
@@ -201,9 +201,9 @@ export default function DailyUploadPage() {
               }
             }}
             disabled={loading}
-            className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-teal-500 focus:outline-none focus:border-teal-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-teal-500 dark:hover:border-teal-500 focus:outline-none focus:border-teal-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 dark:file:bg-teal-900/40 file:text-teal-700 dark:file:text-teal-300 hover:file:bg-teal-100 dark:hover:file:bg-teal-900/60 disabled:opacity-50 disabled:cursor-not-allowed text-gray-600 dark:text-gray-300"
           />
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Accepted format: CSV file only
           </p>
         </div>
@@ -213,7 +213,7 @@ export default function DailyUploadPage() {
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500 mx-auto mb-4"></div>
-              <p className="text-gray-600 font-medium">Processing upload...</p>
+              <p className="text-gray-600 dark:text-gray-300 font-medium">Processing upload...</p>
             </div>
           </div>
         )}
@@ -222,8 +222,8 @@ export default function DailyUploadPage() {
         {message && (
           <div
             className={`p-4 rounded-lg border ${message.type === "success"
-              ? "bg-green-50 border-green-200 text-green-800"
-              : "bg-red-50 border-red-200 text-red-800"
+              ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
+              : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
               }`}
           >
             <div className="flex items-start gap-3">

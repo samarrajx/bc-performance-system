@@ -48,7 +48,7 @@ export default function SystemHealthPage() {
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
                     System Health Console
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-600 dark:text-gray-400 mt-2">
                     Monitor data integrity and system consistency.
                 </p>
             </div>

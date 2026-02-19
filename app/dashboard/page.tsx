@@ -124,202 +124,222 @@ export default function Dashboard() {
     value,
     icon,
     gradient,
-    bgColor,
+    textColor,
     isCurrency = false
   }: {
     title: string;
     value: number;
     icon: string;
     gradient: string;
-    bgColor: string;
+    textColor: string;
     isCurrency?: boolean;
   }) => (
-    <div className={`relative overflow-hidden rounded-2xl p-6 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ${bgColor}`}>
-      {/* Decorative gradient overlay */}
-      <div className={`absolute top-0 right-0 w-32 h-32 ${gradient} opacity-20 rounded-full -mr-8 -mt-8`}></div>
+    <div className={`relative overflow-hidden rounded-2xl p-6 shadow-lg border border-white/50 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl hover:shadow-2xl transition-all duration-300 group hover:-translate-y-1`}>
+      <div className={`absolute top-0 right-0 w-24 h-24 ${gradient} opacity-10 rounded-full blur-2xl -mr-6 -mt-6 group-hover:opacity-20 transition-opacity duration-500`}></div>
 
-      <div className="relative z-10">
-        <div className="flex items-start justify-between mb-4">
-          <div className="text-4xl">{icon}</div>
-          <div className={`px-3 py-1 rounded-full text-xs font-semibold bg-white/30 backdrop-blur-sm`}>
-            Live
-          </div>
+      <div className="relative z-10 flex items-center justify-between">
+        <div>
+          <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{title}</h3>
+          <p className={`text-3xl font-extrabold ${textColor} dark:text-gray-100 tracking-tight`}>
+            {isCurrency ? `₹${value.toLocaleString()}` : value.toLocaleString()}
+          </p>
         </div>
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-inner ${gradient} bg-opacity-10 dark:bg-opacity-20 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
+          {icon}
+        </div>
+      </div>
+    </div>
+  );
 
-        <h3 className="text-sm font-medium opacity-90 uppercase tracking-wide mb-2">
-          {title}
-        </h3>
-        <p className="text-3xl font-bold truncate">
-          {isCurrency ? `₹${value.toLocaleString()}` : value.toLocaleString()}
-        </p>
+  const QuickActionCard = ({
+    title,
+    desc,
+    icon,
+    colorClass,
+    onClick
+  }: {
+    title: string;
+    desc: string;
+    icon: string;
+    colorClass: string;
+    onClick: () => void;
+  }) => (
+    <div
+      onClick={onClick}
+      className="bg-white/70 dark:bg-white/5 backdrop-blur-lg p-6 rounded-2xl shadow-sm border border-white/60 dark:border-white/10 hover:shadow-xl hover:border-green-500/30 dark:hover:border-green-500/30 transition-all duration-300 cursor-pointer group hover:-translate-y-1 relative overflow-hidden"
+    >
+      <div className={`absolute inset-0 bg-gradient-to-br ${colorClass} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
+      <div className="flex items-start gap-4 relaitve z-10">
+        <div className={`p-3 rounded-2xl text-3xl shadow-sm ${colorClass} bg-opacity-10 dark:bg-opacity-20 text-opacity-100 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500`}>
+          {icon}
+        </div>
+        <div>
+          <h3 className="font-bold text-gray-800 dark:text-gray-200 text-lg group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors">{title}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{desc}</p>
+        </div>
+      </div>
+      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 text-green-500 dark:text-green-400">
+        →
       </div>
     </div>
   );
 
   return (
     <AdminLayout>
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-          Dashboard
+      <div className="mb-10">
+        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent mb-2 tracking-tight">
+          Overview
         </h1>
-        <p className="text-gray-600">
-          Overview of system performance and agent activity
+        <p className="text-gray-500 dark:text-gray-400 font-medium">
+          Real-time insights and quick actions.
         </p>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading dashboard...</p>
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-green-500/30 border-t-green-600 rounded-full animate-spin"></div>
+            <p className="text-gray-400 font-medium animate-pulse">Gathering insights...</p>
           </div>
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             <StatCard
               title="Total Devices"
               value={totalDevices}
               icon="📱"
-              gradient="bg-gradient-to-br from-cyan-400 to-blue-500"
-              bgColor="bg-gradient-to-br from-cyan-500 to-blue-600 text-white"
+              gradient="bg-blue-500"
+              textColor="text-blue-600"
             />
             <StatCard
               title="Total Agents"
               value={totalAgents}
               icon="👥"
-              gradient="bg-gradient-to-br from-purple-400 to-pink-500"
-              bgColor="bg-gradient-to-br from-purple-500 to-pink-600 text-white"
-            />
-            <StatCard
-              title="Active Agents"
-              value={activeAgents}
-              icon="✓"
-              gradient="bg-gradient-to-br from-green-400 to-emerald-500"
-              bgColor="bg-gradient-to-br from-green-500 to-emerald-600 text-white"
-            />
-            <StatCard
-              title="Inactive Agents"
-              value={inactiveAgents}
-              icon="⏸"
-              gradient="bg-gradient-to-br from-orange-400 to-red-500"
-              bgColor="bg-gradient-to-br from-orange-500 to-red-600 text-white"
-            />
-
-            {/* New Metrics Row */}
-            <StatCard
-              title="Today's Txns"
-              value={todaysPerformance}
-              icon="📊"
-              gradient="bg-gradient-to-br from-indigo-400 to-violet-500"
-              bgColor="bg-gradient-to-br from-indigo-500 to-violet-600 text-white"
+              gradient="bg-purple-500"
+              textColor="text-purple-600"
             />
             <StatCard
               title="Monthly Payout"
               value={monthlyCommission}
               icon="💰"
-              gradient="bg-gradient-to-br from-teal-400 to-teal-500"
-              bgColor="bg-gradient-to-br from-teal-500 to-teal-600 text-white"
+              gradient="bg-teal-500"
+              textColor="text-teal-600"
               isCurrency={true}
             />
             <StatCard
               title="Pending Approvals"
               value={pendingApprovals}
               icon="⏳"
-              gradient="bg-gradient-to-br from-yellow-400 to-amber-500"
-              bgColor="bg-gradient-to-br from-yellow-500 to-amber-600 text-white"
+              gradient="bg-amber-500"
+              textColor="text-amber-600"
             />
           </div>
 
-          {/* Quick Access Grid */}
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Quick Access</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <StatCard
+              title="Today's Txns"
+              value={todaysPerformance}
+              icon="📊"
+              gradient="bg-indigo-500"
+              textColor="text-indigo-600"
+            />
+            <StatCard
+              title="Active Agents"
+              value={activeAgents}
+              icon="🟢"
+              gradient="bg-green-500"
+              textColor="text-green-600"
+            />
+            <StatCard
+              title="Inactive Agents"
+              value={inactiveAgents}
+              icon="🔴"
+              gradient="bg-red-500"
+              textColor="text-red-600"
+            />
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Quick Access Section */}
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+              <span className="text-2xl">🚀</span> Quick Actions
+            </h2>
 
-              {/* Core Management */}
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/agents')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-blue-50 text-blue-600 text-2xl group-hover:bg-blue-100 transition">👥</div>
-                  <h3 className="font-semibold text-gray-800">Agent Management</h3>
-                </div>
-                <p className="text-sm text-gray-500">View, add, and manage agents.</p>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/devices')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-cyan-50 text-cyan-600 text-2xl group-hover:bg-cyan-100 transition">📱</div>
-                  <h3 className="font-semibold text-gray-800">Device Management</h3>
-                </div>
-                <p className="text-sm text-gray-500">Track and manage registered devices.</p>
-              </div>
+              <QuickActionCard
+                title="Agent Management"
+                desc="Add, view, and manage agent profiles."
+                icon="👥"
+                colorClass="from-blue-500 to-blue-600"
+                onClick={() => router.push('/agents')}
+              />
 
-              {/* Upload Operations */}
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/daily-upload')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-teal-50 text-teal-600 text-2xl group-hover:bg-teal-100 transition">📤</div>
-                  <h3 className="font-semibold text-gray-800">Daily Upload</h3>
-                </div>
-                <p className="text-sm text-gray-500">Upload daily performance CSVs.</p>
-              </div>
+              <QuickActionCard
+                title="Device Inventory"
+                desc="Track registered devices and locations."
+                icon="📱"
+                colorClass="from-cyan-500 to-cyan-600"
+                onClick={() => router.push('/devices')}
+              />
 
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/commission-upload')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-orange-50 text-orange-600 text-2xl group-hover:bg-orange-100 transition">📥</div>
-                  <h3 className="font-semibold text-gray-800">Commission Upload</h3>
-                </div>
-                <p className="text-sm text-gray-500">Upload and calculate commissions.</p>
-              </div>
+              <QuickActionCard
+                title="Daily Performance"
+                desc="Upload and process daily transaction logs."
+                icon="📤"
+                colorClass="from-indigo-500 to-indigo-600"
+                onClick={() => router.push('/admin/daily-upload')}
+              />
 
-              {/* Commission Management */}
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/commission-approval')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-yellow-50 text-yellow-600 text-2xl group-hover:bg-yellow-100 transition">✅</div>
-                  <h3 className="font-semibold text-gray-800">Approvals</h3>
-                </div>
-                <p className="text-sm text-gray-500">Review and approve commissions.</p>
-              </div>
+              <QuickActionCard
+                title="Commission Upload"
+                desc="Calculate monthly payouts from CSV."
+                icon="📥"
+                colorClass="from-orange-500 to-orange-600"
+                onClick={() => router.push('/admin/commission-upload')}
+              />
 
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/commission-column-settings')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-gray-50 text-gray-600 text-2xl group-hover:bg-gray-100 transition">⚙️</div>
-                  <h3 className="font-semibold text-gray-800">Column Settings</h3>
-                </div>
-                <p className="text-sm text-gray-500">Configure CSV column mappings.</p>
-              </div>
+              <QuickActionCard
+                title="Approvals"
+                desc="Review and approve pending commissions."
+                icon="✅"
+                colorClass="from-emerald-500 to-emerald-600"
+                onClick={() => router.push('/admin/commission-approval')}
+              />
 
-              {/* System & Reports */}
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/master-export')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-purple-50 text-purple-600 text-2xl group-hover:bg-purple-100 transition">💾</div>
-                  <h3 className="font-semibold text-gray-800">Master Export</h3>
-                </div>
-                <p className="text-sm text-gray-500">Export system data to CSV.</p>
-              </div>
+              <QuickActionCard
+                title="System Health"
+                desc="Diagnose data integrity issues."
+                icon="🏥"
+                colorClass="from-red-500 to-red-600"
+                onClick={() => router.push('/admin/system-health')}
+              />
 
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/upload-logs')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-indigo-50 text-indigo-600 text-2xl group-hover:bg-indigo-100 transition">📜</div>
-                  <h3 className="font-semibold text-gray-800">Upload Logs</h3>
-                </div>
-                <p className="text-sm text-gray-500">View history of file uploads.</p>
-              </div>
+              <QuickActionCard
+                title="Master Data Sync"
+                desc="Sync agent and device data."
+                icon="🔄"
+                colorClass="from-pink-500 to-pink-600"
+                onClick={() => router.push('/admin/master-sync')}
+              />
 
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/system-health')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-red-50 text-red-600 text-2xl group-hover:bg-red-100 transition">🏥</div>
-                  <h3 className="font-semibold text-gray-800">System Health</h3>
-                </div>
-                <p className="text-sm text-gray-500">Check for data inconsistencies.</p>
-              </div>
+              <QuickActionCard
+                title="Upload Logs"
+                desc="Audit history of all file uploads."
+                icon="📜"
+                colorClass="from-slate-500 to-slate-600"
+                onClick={() => router.push('/admin/upload-logs')}
+              />
 
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition cursor-pointer group" onClick={() => router.push('/admin/master-sync')}>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="p-3 rounded-lg bg-pink-50 text-pink-600 text-2xl group-hover:bg-pink-100 transition">🔄</div>
-                  <h3 className="font-semibold text-gray-800">Master Sync</h3>
-                </div>
-                <p className="text-sm text-gray-500">Sync Master Data with Agent.</p>
-              </div>
+              <QuickActionCard
+                title="Column Settings"
+                desc="Configure CSV mapping rules."
+                icon="⚙️"
+                colorClass="from-gray-500 to-gray-600"
+                onClick={() => router.push('/admin/commission-column-settings')}
+              />
 
             </div>
           </div>

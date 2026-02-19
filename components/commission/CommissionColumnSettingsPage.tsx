@@ -142,7 +142,7 @@ export default function CommissionColumnSettingsPage() {
                         <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text text-transparent mb-2">
                             Column Settings
                         </h1>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 dark:text-gray-400">
                             Configure commission upload column mappings
                         </p>
                     </div>
@@ -159,8 +159,8 @@ export default function CommissionColumnSettingsPage() {
             {message && (
                 <div
                     className={`p-4 rounded-lg border mb-6 ${message.type === "success"
-                            ? "bg-green-50 border-green-200 text-green-800"
-                            : "bg-red-50 border-red-200 text-red-800"
+                        ? "bg-green-50 border-green-200 text-green-800"
+                        : "bg-red-50 border-red-200 text-red-800"
                         }`}
                 >
                     <div className="flex items-start gap-3">
@@ -172,11 +172,11 @@ export default function CommissionColumnSettingsPage() {
 
             {/* Add Form */}
             {showAddForm && (
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100 mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Column</h3>
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6 border border-purple-100 dark:border-purple-800 mb-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New Column</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Column Key (DB field)
                             </label>
                             <input
@@ -184,11 +184,11 @@ export default function CommissionColumnSettingsPage() {
                                 value={newColumn.column_key}
                                 onChange={(e) => setNewColumn({ ...newColumn, column_key: e.target.value })}
                                 placeholder="e.g. new_field_name"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 CSV Header Name
                             </label>
                             <input
@@ -196,18 +196,18 @@ export default function CommissionColumnSettingsPage() {
                                 value={newColumn.csv_header_name}
                                 onChange={(e) => setNewColumn({ ...newColumn, csv_header_name: e.target.value })}
                                 placeholder="e.g. New Field Header"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Display Order
                             </label>
                             <input
                                 type="number"
                                 value={newColumn.display_order}
                                 onChange={(e) => setNewColumn({ ...newColumn, display_order: parseInt(e.target.value) })}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
                         </div>
                     </div>
@@ -226,37 +226,37 @@ export default function CommissionColumnSettingsPage() {
                 <div className="flex items-center justify-center h-64">
                     <div className="text-center">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
-                        <p className="text-gray-600">Loading settings...</p>
+                        <p className="text-gray-600 dark:text-gray-400">Loading settings...</p>
                     </div>
                 </div>
             ) : (
                 <>
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden mb-6">
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden mb-6">
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gradient-to-r from-purple-50 to-pink-50">
+                                <thead className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/40 dark:to-pink-900/40">
                                     <tr>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Order</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Column Key</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">CSV Header</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Required</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Active</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Order</th>
+                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Column Key</th>
+                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">CSV Header</th>
+                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Required</th>
+                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Active</th>
+                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-100">
+                                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                                     {settings.map((setting) => (
-                                        <tr key={setting.id} className="hover:bg-gray-50 transition">
+                                        <tr key={setting.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                                             <td className="px-6 py-4">
                                                 <input
                                                     type="number"
                                                     value={setting.display_order}
                                                     onChange={(e) => handleUpdate(setting.id, 'display_order', parseInt(e.target.value))}
-                                                    className="w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500"
+                                                    className="w-20 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                                 />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <code className="px-3 py-1 bg-gray-100 text-purple-700 rounded text-sm font-mono">
+                                                <code className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-purple-700 dark:text-purple-300 rounded text-sm font-mono">
                                                     {setting.column_key}
                                                 </code>
                                             </td>
@@ -275,12 +275,12 @@ export default function CommissionColumnSettingsPage() {
                                                             setEditingId(null);
                                                         }}
                                                         autoFocus
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500"
+                                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                                     />
                                                 ) : (
                                                     <span
                                                         onClick={() => setEditingId(setting.id)}
-                                                        className="cursor-pointer text-gray-900 hover:text-purple-600"
+                                                        className="cursor-pointer text-gray-900 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400"
                                                         title="Click to edit"
                                                     >
                                                         {setting.csv_header_name}
@@ -295,7 +295,7 @@ export default function CommissionColumnSettingsPage() {
                                                         onChange={() => handleToggle(setting.id, 'is_required', setting.is_required)}
                                                         className="sr-only peer"
                                                     />
-                                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                                    <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
                                                 </label>
                                             </td>
                                             <td className="px-6 py-4">
@@ -306,7 +306,7 @@ export default function CommissionColumnSettingsPage() {
                                                         onChange={() => handleToggle(setting.id, 'is_active', setting.is_active)}
                                                         className="sr-only peer"
                                                     />
-                                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                                    <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
                                                 </label>
                                             </td>
                                             <td className="px-6 py-4">
@@ -324,8 +324,8 @@ export default function CommissionColumnSettingsPage() {
                         </div>
                     </div>
 
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <p className="text-sm text-blue-800">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                        <p className="text-sm text-blue-800 dark:text-blue-200">
                             <strong>Note:</strong> Changes take effect immediately. Required columns must exist in uploaded CSV files.
                             Active columns will be validated and stored. Inactive columns will be ignored during upload.
                         </p>

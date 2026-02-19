@@ -80,11 +80,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colorScheme.background,
       appBar: widget.isForced 
           ? null 
-          : AppBar(title: const Text('Change Password'), backgroundColor: AppColors.background),
+          : AppBar(
+              title: Text('Change Password', style: TextStyle(color: colorScheme.onBackground)),
+              backgroundColor: colorScheme.background,
+              iconTheme: IconThemeData(color: colorScheme.onBackground),
+            ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -93,21 +99,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (widget.isForced) ...[
-                const Icon(Icons.lock_reset, size: 64, color: AppColors.primary),
+                Icon(Icons.lock_reset, size: 64, color: colorScheme.primary),
                 const SizedBox(height: 24),
                 Text(
                   'Setup New Password',
                   style: GoogleFonts.outfit(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.onBackground,
+                    color: colorScheme.onBackground,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'For security, you must change your default password before continuing.',
-                  style: GoogleFonts.outfit(color: AppColors.outline),
+                  style: GoogleFonts.outfit(color: colorScheme.outline),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
@@ -119,9 +125,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 decoration: InputDecoration(
                   labelText: 'New Password',
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: colorScheme.surface,
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  prefixIcon: const Icon(Icons.lock_outline),
+                  prefixIcon: Icon(Icons.lock_outline, color: colorScheme.secondary),
                 ),
               ),
               const SizedBox(height: 16),
@@ -131,9 +137,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 decoration: InputDecoration(
                   labelText: 'Confirm Password',
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: colorScheme.surface,
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  prefixIcon: const Icon(Icons.lock_outline),
+                  prefixIcon: Icon(Icons.lock_outline, color: colorScheme.secondary),
                 ),
               ),
 
@@ -141,7 +147,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 const SizedBox(height: 24),
                 Text(
                   _errorMessage!,
-                  style: const TextStyle(color: AppColors.error),
+                  style: TextStyle(color: colorScheme.error),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -150,7 +156,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               FilledButton(
                 onPressed: _isLoading ? null : _handleChangePassword,
                 style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: colorScheme.primary,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: _isLoading

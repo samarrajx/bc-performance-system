@@ -229,22 +229,22 @@ export default function CommissionUploadPage() {
                     <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text text-transparent mb-2">
                         Commission Upload
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 dark:text-gray-400">
                         Upload and process commission data for agents
                     </p>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
                     {/* Month and Year Selection */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Select Month
                             </label>
                             <select
                                 value={selectedMonth}
                                 onChange={(e) => setSelectedMonth(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                 disabled={loading}
                             >
                                 <option value="">Choose a month</option>
@@ -255,7 +255,7 @@ export default function CommissionUploadPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Select Year
                             </label>
                             <input
@@ -265,7 +265,7 @@ export default function CommissionUploadPage() {
                                 min="2020"
                                 max="2100"
                                 placeholder="e.g., 2024"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                 disabled={loading}
                             />
                         </div>
@@ -273,7 +273,7 @@ export default function CommissionUploadPage() {
 
                     {/* File Upload */}
                     <div className="mb-6">
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                             Upload Commission File
                         </label>
                         <div className="relative">
@@ -285,10 +285,10 @@ export default function CommissionUploadPage() {
                                     if (file) handleFile(file);
                                 }}
                                 disabled={loading || !selectedMonth || !selectedYear}
-                                className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 focus:outline-none focus:border-orange-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-orange-500 dark:hover:border-orange-500 focus:outline-none focus:border-orange-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 dark:file:bg-orange-900/20 file:text-orange-700 dark:file:text-orange-300 hover:file:bg-orange-100 dark:hover:file:bg-orange-900/40 disabled:opacity-50 disabled:cursor-not-allowed text-gray-600 dark:text-gray-300"
                             />
                         </div>
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                             Supported formats: .xlsx, .xls, .csv
                         </p>
                     </div>
@@ -298,7 +298,7 @@ export default function CommissionUploadPage() {
                         <div className="flex items-center justify-center py-8">
                             <div className="text-center">
                                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-                                <p className="text-gray-600 font-medium">Processing your file...</p>
+                                <p className="text-gray-600 dark:text-gray-300 font-medium">Processing your file...</p>
                             </div>
                         </div>
                     )}
@@ -307,8 +307,8 @@ export default function CommissionUploadPage() {
                     {message && (
                         <div
                             className={`p-4 rounded-lg border ${message.type === "success"
-                                ? "bg-green-50 border-green-200 text-green-800"
-                                : "bg-red-50 border-red-200 text-red-800"
+                                ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
+                                : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
                                 }`}
                         >
                             <div className="flex items-start gap-3">

@@ -141,69 +141,69 @@ export default function SystemHealthDashboard() {
         <div className="grid grid-cols-1 gap-6">
             {/* Summary Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <p className="text-gray-500 text-sm">Total Agents</p>
-                    <p className="text-2xl font-bold text-gray-800">{stats.totalAgents}</p>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">Total Agents</p>
+                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.totalAgents}</p>
                 </div>
-                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <p className="text-gray-500 text-sm">Total Devices</p>
-                    <p className="text-2xl font-bold text-gray-800">{stats.totalDevices}</p>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">Total Devices</p>
+                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.totalDevices}</p>
                 </div>
-                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <p className="text-gray-500 text-sm">Unassigned Devices</p>
-                    <p className={`text-2xl font-bold ${stats.orphanDevices > 0 ? 'text-orange-600' : 'text-green-600'}`}>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">Unassigned Devices</p>
+                    <p className={`text-2xl font-bold ${stats.orphanDevices > 0 ? 'text-orange-600 dark:text-orange-400' : 'text-green-600 dark:text-green-400'}`}>
                         {stats.orphanDevices}
                     </p>
                 </div>
-                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <p className="text-gray-500 text-sm">Agents w/o Device</p>
-                    <p className={`text-2xl font-bold ${stats.agentsWithoutDevices > 0 ? 'text-blue-600' : 'text-gray-800'}`}>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">Agents w/o Device</p>
+                    <p className={`text-2xl font-bold ${stats.agentsWithoutDevices > 0 ? 'text-blue-600 dark:text-blue-400' : 'text-gray-800 dark:text-gray-100'}`}>
                         {stats.agentsWithoutDevices}
                     </p>
                 </div>
             </div>
 
             {/* Issues List */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
-                <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-6">
+                <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
                     <span>🏥</span> System Health Issues
                 </h2>
 
                 {issues.length === 0 ? (
-                    <div className="text-center py-8 bg-green-50 rounded-lg border border-green-100">
-                        <p className="text-green-700 font-medium text-lg">All systems healthy!</p>
-                        <p className="text-green-600 text-sm">No consistency issues found.</p>
+                    <div className="text-center py-8 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800">
+                        <p className="text-green-700 dark:text-green-300 font-medium text-lg">All systems healthy!</p>
+                        <p className="text-green-600 dark:text-green-400 text-sm">No consistency issues found.</p>
                     </div>
                 ) : (
                     <div className="space-y-4">
                         {issues.map((issue, idx) => (
-                            <div key={idx} className={`p-4 rounded-lg border flex items-start gap-4 ${issue.type === 'error' ? 'bg-red-50 border-red-200' :
-                                issue.type === 'warning' ? 'bg-orange-50 border-orange-200' :
-                                    'bg-blue-50 border-blue-200'
+                            <div key={idx} className={`p-4 rounded-lg border flex items-start gap-4 ${issue.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' :
+                                issue.type === 'warning' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800' :
+                                    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'
                                 }`}>
-                                <div className={`text-2xl ${issue.type === 'error' ? 'text-red-600' :
-                                    issue.type === 'warning' ? 'text-orange-600' :
-                                        'text-blue-600'
+                                <div className={`text-2xl ${issue.type === 'error' ? 'text-red-600 dark:text-red-400' :
+                                    issue.type === 'warning' ? 'text-orange-600 dark:text-orange-400' :
+                                        'text-blue-600 dark:text-blue-400'
                                     }`}>
                                     {issue.type === 'error' ? '⛔' : issue.type === 'warning' ? '⚠️' : 'ℹ️'}
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className={`font-bold ${issue.type === 'error' ? 'text-red-800' :
-                                        issue.type === 'warning' ? 'text-orange-800' :
-                                            'text-blue-800'
+                                    <h3 className={`font-bold ${issue.type === 'error' ? 'text-red-800 dark:text-red-300' :
+                                        issue.type === 'warning' ? 'text-orange-800 dark:text-orange-300' :
+                                            'text-blue-800 dark:text-blue-300'
                                         }`}>
                                         {issue.title}
                                     </h3>
-                                    <p className={`text-sm ${issue.type === 'error' ? 'text-red-700' :
-                                        issue.type === 'warning' ? 'text-orange-700' :
-                                            'text-blue-700'
+                                    <p className={`text-sm ${issue.type === 'error' ? 'text-red-700 dark:text-red-200' :
+                                        issue.type === 'warning' ? 'text-orange-700 dark:text-orange-200' :
+                                            'text-blue-700 dark:text-blue-200'
                                         }`}>
                                         {issue.description}
                                     </p>
                                 </div>
-                                <div className={`text-xl font-bold ${issue.type === 'error' ? 'text-red-800' :
-                                    issue.type === 'warning' ? 'text-orange-800' :
-                                        'text-blue-800'
+                                <div className={`text-xl font-bold ${issue.type === 'error' ? 'text-red-800 dark:text-red-300' :
+                                    issue.type === 'warning' ? 'text-orange-800 dark:text-orange-300' :
+                                        'text-blue-800 dark:text-blue-300'
                                     }`}>
                                     {issue.count}
                                 </div>

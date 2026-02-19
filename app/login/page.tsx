@@ -63,71 +63,90 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-200">
+      <div className="w-full max-w-md perspective-1000">
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/50 transform transition-all hover:scale-[1.01] duration-500">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mb-4 shadow-lg">
-              <span className="text-3xl">📊</span>
+          <div className="text-center mb-10">
+            <div className="relative inline-block group">
+              <div className="absolute inset-0 bg-green-500 blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full"></div>
+              <img
+                src="/logo.svg"
+                alt="SVF Logo"
+                className="relative w-24 h-24 mx-auto mb-6 drop-shadow-2xl transform group-hover:rotate-12 transition-transform duration-700 ease-out"
+              />
             </div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-              Admin Login
+            <h2 className="text-3xl font-extrabold bg-gradient-to-r from-green-800 to-green-600 bg-clip-text text-transparent mb-2 tracking-tight">
+              Admin Portal
             </h2>
-            <p className="text-gray-600">BC Performance Portal</p>
+            <p className="text-gray-500 font-medium tracking-wide text-sm uppercase">Sanjivani Vikas Foundation</p>
           </div>
 
           {/* Form */}
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <div className="space-y-6">
+            <div className="group">
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-green-600 transition-colors">
                 Email Address
               </label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-              />
+              <div className="relative">
+                <span className="absolute left-4 top-3.5 text-gray-400 group-focus-within:text-green-500 transition-colors">📧</span>
+                <input
+                  type="email"
+                  placeholder="admin@example.com"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all duration-300 outline-none font-medium text-gray-700"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                />
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <div className="group">
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-green-600 transition-colors">
                 Password
               </label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-              />
+              <div className="relative">
+                <span className="absolute left-4 top-3.5 text-gray-400 group-focus-within:text-green-500 transition-colors">🔒</span>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all duration-300 outline-none font-medium text-gray-700"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                />
+              </div>
             </div>
 
             {errorMsg && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-700 text-sm font-medium">{errorMsg}</p>
+              <div className="p-4 bg-red-50/50 backdrop-blur-sm border border-red-100 rounded-xl flex items-center gap-3 animate-pulse">
+                <span className="text-red-500 text-xl">⚠️</span>
+                <p className="text-red-600 text-sm font-semibold">{errorMsg}</p>
               </div>
             )}
 
             <button
               onClick={handleLogin}
               disabled={loading}
-              className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg hover:shadow-xl"
+              className="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white font-bold rounded-xl hover:from-green-500 hover:to-green-600 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-green-600/30 hover:shadow-green-600/50 flex items-center justify-center gap-2 group"
             >
               {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  Logging in...
-                </span>
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Authenticating...</span>
+                </>
               ) : (
-                "Login"
+                <>
+                  <span>Sign In to Dashboard</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </>
               )}
             </button>
           </div>
+        </div>
+
+        <div className="text-center mt-8 text-gray-400 text-sm font-medium">
+          &copy; {new Date().getFullYear()} BC Performance System
         </div>
       </div>
     </div>

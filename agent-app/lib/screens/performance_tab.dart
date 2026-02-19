@@ -98,15 +98,18 @@ class _PerformanceTabState extends State<PerformanceTab> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        title: Text('Performance Analysis', style: GoogleFonts.outfit(fontWeight: FontWeight.w600)),
-        backgroundColor: AppColors.background,
+        title: Text('Performance Analysis', style: GoogleFonts.outfit(fontWeight: FontWeight.w600, color: colorScheme.onBackground)),
+        backgroundColor: colorScheme.background,
+        iconTheme: IconThemeData(color: colorScheme.onBackground),
         actions: [
           IconButton(
             onPressed: _pickDate,
-            icon: const Icon(Icons.calendar_today),
+            icon: Icon(Icons.calendar_today, color: colorScheme.onBackground),
           ),
         ],
       ),
@@ -115,7 +118,7 @@ class _PerformanceTabState extends State<PerformanceTab> {
           // Date Header
           Container(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            color: AppColors.surfaceVariant.withOpacity(0.3),
+            color: colorScheme.surfaceVariant.withOpacity(0.3),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -123,12 +126,12 @@ class _PerformanceTabState extends State<PerformanceTab> {
                   DateFormat('EEEE, d MMMM yyyy').format(_selectedDate),
                   style: GoogleFonts.outfit(
                     fontSize: 16,
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Icon(Icons.arrow_drop_down, color: AppColors.primary),
+                Icon(Icons.arrow_drop_down, color: colorScheme.primary),
               ],
             ),
           ),
@@ -158,16 +161,17 @@ class _PerformanceTabState extends State<PerformanceTab> {
   }
 
   Widget _buildEmptyState() {
+    final colorScheme = Theme.of(context).colorScheme;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.analytics_outlined, size: 64, color: AppColors.outline.withOpacity(0.5)),
+          Icon(Icons.analytics_outlined, size: 64, color: colorScheme.outline.withOpacity(0.5)),
           const SizedBox(height: 16),
           Text(
             'No performance data found\nfor this date.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(color: AppColors.outline, fontSize: 16),
+            style: GoogleFonts.outfit(color: colorScheme.outline, fontSize: 16),
           ),
         ],
       ),
@@ -175,6 +179,7 @@ class _PerformanceTabState extends State<PerformanceTab> {
   }
 
   Widget _buildSectionHeader(String title) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.only(top: 24, bottom: 12),
       child: Text(
@@ -183,17 +188,18 @@ class _PerformanceTabState extends State<PerformanceTab> {
           fontSize: 12,
           fontWeight: FontWeight.bold,
           letterSpacing: 1,
-          color: AppColors.outline,
+          color: colorScheme.outline,
         ),
       ),
     );
   }
 
   Widget _buildFinancialSection() {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: AppColors.outline.withOpacity(0.1))),
-      color: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: colorScheme.outline.withOpacity(0.1))),
+      color: colorScheme.surface,
       child: Column(
         children: [
           _buildRow('Deposits', _data!['deposit_count'], _data!['deposit_amount'], isCurrency: true),
@@ -207,10 +213,11 @@ class _PerformanceTabState extends State<PerformanceTab> {
   }
 
   Widget _buildAepsSection() {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: AppColors.outline.withOpacity(0.1))),
-      color: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: colorScheme.outline.withOpacity(0.1))),
+      color: colorScheme.surface,
       child: Column(
         children: [
           _buildRow('AEPS On-Us', _data!['aeps_onus_count'], _data!['aeps_onus_amt'], isCurrency: true),
@@ -226,10 +233,11 @@ class _PerformanceTabState extends State<PerformanceTab> {
   }
 
   Widget _buildSchemesSection() {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       elevation: 0,
-       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: AppColors.outline.withOpacity(0.1))),
-      color: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: colorScheme.outline.withOpacity(0.1))),
+      color: colorScheme.surface,
       child: Column(
         children: [
           _buildRow('Enrollments', _data!['enrollment_count'], null), // Just count

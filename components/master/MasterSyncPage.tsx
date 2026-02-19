@@ -200,15 +200,15 @@ export default function MasterSyncPage() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-600 via-rose-600 to-red-600 bg-clip-text text-transparent mb-2">
           Master Sync
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           Synchronize agent and device master data
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         {/* Mode Selection */}
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
             Sync Mode
           </label>
           <div className="flex gap-4">
@@ -217,10 +217,10 @@ export default function MasterSyncPage() {
                 type="radio"
                 checked={mode === "incremental"}
                 onChange={() => setMode("incremental")}
-                className="w-4 h-4 text-pink-600 focus:ring-pink-500"
+                className="w-4 h-4 text-pink-600 focus:ring-pink-500 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
               />
-              <span className="text-gray-700 font-medium">Incremental Mode</span>
-              <span className="text-sm text-gray-500">(Add/Update only)</span>
+              <span className="text-gray-700 dark:text-gray-300 font-medium">Incremental Mode</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">(Add/Update only)</span>
             </label>
 
             <label className="flex items-center gap-2 cursor-pointer">
@@ -228,10 +228,10 @@ export default function MasterSyncPage() {
                 type="radio"
                 checked={mode === "full"}
                 onChange={() => setMode("full")}
-                className="w-4 h-4 text-pink-600 focus:ring-pink-500"
+                className="w-4 h-4 text-pink-600 focus:ring-pink-500 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
               />
-              <span className="text-gray-700 font-medium">Full Sync Mode</span>
-              <span className="text-sm text-gray-500">(Deactivates missing agents)</span>
+              <span className="text-gray-700 dark:text-gray-300 font-medium">Full Sync Mode</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">(Deactivates missing agents)</span>
             </label>
           </div>
         </div>
@@ -250,7 +250,7 @@ export default function MasterSyncPage() {
 
         {/* File Upload */}
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
             Upload Master Data File
           </label>
           <input
@@ -262,9 +262,9 @@ export default function MasterSyncPage() {
               }
             }}
             disabled={loading}
-            className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-pink-500 focus:outline-none focus:border-pink-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-pink-500 dark:hover:border-pink-500 focus:outline-none focus:border-pink-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 dark:file:bg-pink-900/20 file:text-pink-700 dark:file:text-pink-300 hover:file:bg-pink-100 dark:hover:file:bg-pink-900/40 disabled:opacity-50 disabled:cursor-not-allowed text-gray-600 dark:text-gray-300"
           />
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Accepted format: CSV file only
           </p>
         </div>
@@ -274,7 +274,7 @@ export default function MasterSyncPage() {
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto mb-4"></div>
-              <p className="text-gray-600 font-medium">Processing sync...</p>
+              <p className="text-gray-600 dark:text-gray-300 font-medium">Processing sync...</p>
             </div>
           </div>
         )}
@@ -283,8 +283,8 @@ export default function MasterSyncPage() {
         {message && (
           <div
             className={`p-4 rounded-lg border ${message.type === "success"
-              ? "bg-green-50 border-green-200 text-green-800"
-              : "bg-red-50 border-red-200 text-red-800"
+              ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
+              : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
               }`}
           >
             <div className="flex items-start gap-3">
@@ -295,8 +295,8 @@ export default function MasterSyncPage() {
         )}
 
         {/* Info Box */}
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm text-blue-800">
+        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+          <p className="text-sm text-blue-800 dark:text-blue-300">
             <strong>Note:</strong> {mode === "incremental"
               ? "Incremental mode will add new entries and update existing ones without deactivating any agents."
               : "Full sync mode will mark agents not in the uploaded file as inactive."

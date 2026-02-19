@@ -43,11 +43,11 @@ export async function POST(request: Request) {
         // Optimization: In production, use a SQL function `get_user_id_by_email`.
         // Since I can't easily add SQL right now without user running it, I'll try the loop.
 
-        let userId = null;
+        let existingUser: any = null;
         let page = 1;
         let hasMore = true;
 
-        while (hasMore && !userId) {
+        while (hasMore && !existingUser) {
             const { data: { users }, error } = await supabaseAdmin.auth.admin.listUsers({
                 page: page,
                 perPage: 1000,
@@ -57,14 +57,14 @@ export async function POST(request: Request) {
 
             const found = users.find(u => u.email === email);
             if (found) {
-                userId = found.id;
+                existingUser = found;
             }
 
             if (users.length < 1000) hasMore = false;
             page++;
         }
 
-        if (!userId) {
+        if (!existingUser) {
             // User doesn't exist? Create them!
             const { error: createError } = await supabaseAdmin.auth.admin.createUser({
                 email: email,
@@ -76,9 +76,21 @@ export async function POST(request: Request) {
             if (createError) throw createError;
         } else {
             // User exists, Update password
+            const userId = existingUser.id;
+            const data = existingUser.user_metadata;
+            const newPassword = defaultPassword;
+
+            const updatePayload = {
+                password: newPassword,
+                user_metadata: {
+                    ...(typeof data === "object" && data !== null ? data : {}),
+                    must_change_password: true
+                }
+            };
+
             const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
                 userId,
-                { password: defaultPassword, user_metadata: { ...null, must_change_password: true } }
+                updatePayload
             );
 
             if (updateError) throw updateError;

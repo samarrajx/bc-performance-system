@@ -35,28 +35,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _currentIndex = index;
           });
         },
-        backgroundColor: AppColors.surface,
-        indicatorColor: AppColors.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        indicatorColor: Theme.of(context).colorScheme.secondaryContainer,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home, color: AppColors.onPrimaryContainer),
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home, color: Theme.of(context).colorScheme.onSecondaryContainer),
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined),
-            selectedIcon: Icon(Icons.bar_chart, color: AppColors.onPrimaryContainer),
+            icon: const Icon(Icons.bar_chart_outlined),
+            selectedIcon: Icon(Icons.bar_chart, color: Theme.of(context).colorScheme.onSecondaryContainer),
             label: 'Performance',
           ),
           NavigationDestination(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: Icon(Icons.account_balance_wallet, color: AppColors.onPrimaryContainer),
+            icon: const Icon(Icons.account_balance_wallet_outlined),
+            selectedIcon: Icon(Icons.account_balance_wallet, color: Theme.of(context).colorScheme.onSecondaryContainer),
             label: 'Commission',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person, color: AppColors.onPrimaryContainer),
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person, color: Theme.of(context).colorScheme.onSecondaryContainer),
             label: 'Profile',
           ),
         ],

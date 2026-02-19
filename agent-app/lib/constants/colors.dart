@@ -32,4 +32,24 @@ class AppColors {
   static const Color surfaceVariant = Color(0xFFDEE3EB);
   static const Color onSurfaceVariant = Color(0xFF42474E);
   static const Color outline = Color(0xFF72777F);
+
+  // Dark Theme Colors (Deep Green optimized for dark mode)
+  static const Color darkPrimary = Color(0xFF81C784); // Lighter green for dark mode
+  static const Color darkOnPrimary = Color(0xFF00390A);
+  static const Color darkPrimaryContainer = Color(0xFF005313);
+  static const Color darkOnPrimaryContainer = Color(0xFFC8E6C9);
+
+  static const Color darkSecondary = Color(0xFFFF8A65); // Lighter orange
+  static const Color darkOnSecondary = Color(0xFF5D1000);
+  static const Color darkSecondaryContainer = Color(0xFF831F00);
+  static const Color darkOnSecondaryContainer = Color(0xFFFFCCBC);
+
+  static const Color darkBackground = Color(0xFF0A0F0B); // Very dark green/black
+  static const Color darkOnBackground = Color(0xFFE1E3DF);
+  static const Color darkSurface = Color(0xFF111411);
+  static const Color darkOnSurface = Color(0xFFE1E3DF);
+  
+  static const Color darkSurfaceVariant = Color(0xFF424940);
+  static const Color darkOnSurfaceVariant = Color(0xFFC2C8BC);
+  static const Color darkOutline = Color(0xFF8C9388);
 }

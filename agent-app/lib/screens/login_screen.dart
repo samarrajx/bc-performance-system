@@ -82,30 +82,55 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Icon/Logo
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryContainer,
-                  borderRadius: BorderRadius.circular(24),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark 
+              ? [AppColors.darkBackground, const Color(0xFF0D3311), const Color(0xFF000000)]
+              : [const Color(0xFFE8F5E9), const Color(0xFFFFFFFF), const Color(0xFFF1F8E9)],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Icon/Logo
+                Center(
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [AppColors.primary, Color(0xFF2E7D32)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withOpacity(0.3),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.bar_chart_rounded,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                  ),
                 ),
-                child: const Icon(
-                  Icons.phone_android_rounded, // Using a generic icon for now
-                  color: AppColors.primary,
-                  size: 40,
-                ),
-              ),
-              const SizedBox(height: 32),
+                const SizedBox(height: 32),
               
               // Title
               Text(
@@ -113,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: GoogleFonts.outfit(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.onBackground,
+                  color: colorScheme.onBackground,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -122,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 'Enter your credentials to access',
                 style: GoogleFonts.outfit(
                   fontSize: 14,
-                  color: AppColors.outline,
+                  color: colorScheme.outline,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -135,7 +160,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Agent ID',
                   hintText: 'e.g. AGT12345',
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: colorScheme.surface,
+                  labelStyle: TextStyle(color: colorScheme.outline),
+                  hintStyle: TextStyle(color: colorScheme.outline.withOpacity(0.5)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: BorderSide.none,
@@ -146,9 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
-                    borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                    borderSide: BorderSide(color: colorScheme.primary, width: 2),
                   ),
-                  prefixIcon: const Icon(Icons.badge_outlined, color: AppColors.secondary),
+                  prefixIcon: Icon(Icons.badge_outlined, color: colorScheme.secondary),
                 ),
               ),
               const SizedBox(height: 16),
@@ -160,7 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Password',
                   hintText: '••••••••',
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: colorScheme.surface,
+                  labelStyle: TextStyle(color: colorScheme.outline),
+                  hintStyle: TextStyle(color: colorScheme.outline.withOpacity(0.5)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: BorderSide.none,
@@ -171,9 +200,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
-                    borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                    borderSide: BorderSide(color: colorScheme.primary, width: 2),
                   ),
-                  prefixIcon: const Icon(Icons.lock_outline, color: AppColors.secondary),
+                  prefixIcon: Icon(Icons.lock_outline, color: colorScheme.secondary),
                 ),
               ),
 
@@ -236,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 'Detailed Performance Tracking & Commission System',
                 style: GoogleFonts.outfit(
                   fontSize: 12,
-                  color: AppColors.outline,
+                  color: colorScheme.outline,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -244,7 +273,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 
   @override

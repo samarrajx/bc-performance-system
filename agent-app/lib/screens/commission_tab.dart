@@ -86,12 +86,15 @@ class _CommissionTabState extends State<CommissionTab> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        title: Text('My Commission', style: GoogleFonts.outfit(fontWeight: FontWeight.bold)),
-        backgroundColor: AppColors.background,
+        title: Text('My Commission', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, color: colorScheme.onBackground)),
+        backgroundColor: colorScheme.background,
         elevation: 0,
+        iconTheme: IconThemeData(color: colorScheme.onBackground),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -102,9 +105,9 @@ class _CommissionTabState extends State<CommissionTab> {
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: AppColors.surfaceVariant),
+                side: BorderSide(color: colorScheme.outline.withOpacity(0.2)),
               ),
-              color: Colors.white,
+              color: colorScheme.surface,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -138,11 +141,13 @@ class _CommissionTabState extends State<CommissionTab> {
                             value: _selectedYear,
                             decoration: InputDecoration(
                               labelText: 'Year',
+                              labelStyle: TextStyle(color: colorScheme.outline),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             ),
+                            dropdownColor: colorScheme.surface,
                             items: [2023, 2024, 2025, 2026].map((y) {
                               return DropdownMenuItem(
                                 value: y,
@@ -162,7 +167,7 @@ class _CommissionTabState extends State<CommissionTab> {
                       child: FilledButton(
                         onPressed: _isLoading ? null : _fetchCommission,
                         style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: colorScheme.primary,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
                         child: Text(_isLoading ? 'Loading...' : 'View Commission'),
@@ -178,17 +183,17 @@ class _CommissionTabState extends State<CommissionTab> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.errorContainer.withOpacity(0.5),
+                  color: colorScheme.errorContainer.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.info_outline, color: AppColors.error),
+                    Icon(Icons.info_outline, color: colorScheme.error),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         _error!,
-                        style: GoogleFonts.outfit(color: AppColors.onErrorContainer),
+                        style: GoogleFonts.outfit(color: colorScheme.onErrorContainer),
                       ),
                     ),
                   ],
@@ -201,13 +206,9 @@ class _CommissionTabState extends State<CommissionTab> {
                 margin: const EdgeInsets.only(bottom: 24),
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFE8DEF8), Color(0xFFF3E5F5)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  color: colorScheme.tertiaryContainer,
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: AppColors.tertiary.withOpacity(0.2)),
+                  border: Border.all(color: colorScheme.outline.withOpacity(0.1)),
                 ),
                 child: Column(
                   children: [
@@ -217,7 +218,7 @@ class _CommissionTabState extends State<CommissionTab> {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
-                        color: AppColors.onTertiaryContainer.withOpacity(0.7),
+                        color: colorScheme.onTertiaryContainer.withOpacity(0.7),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -226,7 +227,7 @@ class _CommissionTabState extends State<CommissionTab> {
                       style: GoogleFonts.outfit(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.onTertiaryContainer,
+                        color: colorScheme.onTertiaryContainer,
                       ),
                     ),
                     const Divider(height: 32),
@@ -239,7 +240,7 @@ class _CommissionTabState extends State<CommissionTab> {
                           style: GoogleFonts.outfit(
                             fontSize: 12, 
                             fontWeight: FontWeight.bold,
-                            color: AppColors.error,
+                            color: colorScheme.error,
                           ),
                         ),
                       ],
@@ -283,7 +284,7 @@ class _CommissionTabState extends State<CommissionTab> {
             style: GoogleFonts.outfit(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: Theme.of(context).colorScheme.primary,
               letterSpacing: 0.5,
             ),
           ),
@@ -300,10 +301,10 @@ class _CommissionTabState extends State<CommissionTab> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: GoogleFonts.outfit(fontSize: 14, color: AppColors.onSurfaceVariant)),
+          Text(label, style: GoogleFonts.outfit(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant)),
           Text(
             _formatCurrency(value ?? 0),
-            style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.onSurface),
+            style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurface),
           ),
         ],
       ),

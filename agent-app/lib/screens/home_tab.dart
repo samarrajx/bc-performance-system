@@ -292,6 +292,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     final agentName = _agentProfile?['agent_name'] ?? 'Agent';
+    final colorScheme = Theme.of(context).colorScheme;
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -300,50 +301,76 @@ class _HomeTabState extends State<HomeTab> {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
         children: [
-          // Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hello, $agentName',
-                    style: GoogleFonts.outfit(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.onBackground,
+          // Header with Gradient
+          Container(
+             margin: const EdgeInsets.only(bottom: 24),
+             padding: const EdgeInsets.all(24),
+             decoration: BoxDecoration(
+               gradient: const LinearGradient(
+                 colors: [AppColors.primary, Color(0xFF0D3311)], // Deep Green Gradient
+                 begin: Alignment.topLeft,
+                 end: Alignment.bottomRight,
+               ),
+               borderRadius: BorderRadius.circular(24),
+               boxShadow: [
+                 BoxShadow(
+                   color: AppColors.primary.withOpacity(0.3),
+                   blurRadius: 15,
+                   offset: const Offset(0, 8),
+                 ),
+               ],
+             ),
+             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hello, $agentName',
+                      style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _activeSegment == 1 
+                        ? DateFormat('MMMM yyyy').format(_monthViewDate)
+                        : DateFormat('EEEE, d MMM').format(_todayViewDate),
+                      style: GoogleFonts.outfit(fontSize: 14, color: Colors.white70),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 22,
+                    child: Text(
+                      agentName.isNotEmpty ? agentName[0] : 'A',
+                      style: GoogleFonts.outfit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
-                  Text(
-                    _activeSegment == 1 
-                      ? DateFormat('MMMM yyyy').format(_monthViewDate)
-                      : DateFormat('EEEE, d MMM').format(_todayViewDate),
-                    style: GoogleFonts.outfit(fontSize: 14, color: AppColors.outline),
-                  ),
-                ],
-              ),
-              CircleAvatar(
-                backgroundColor: AppColors.primaryContainer,
-                radius: 20,
-                child: Text(
-                  agentName.isNotEmpty ? agentName[0] : 'A',
-                  style: GoogleFonts.outfit(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.onPrimaryContainer,
-                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: 24),
 
           // Segmented Control
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: AppColors.surfaceVariant.withOpacity(0.3),
+              color: colorScheme.surfaceVariant.withOpacity(0.3),
               borderRadius: BorderRadius.circular(100),
             ),
             child: Row(
@@ -361,7 +388,7 @@ class _HomeTabState extends State<HomeTab> {
              Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
-                 Text('Operational Data', style: GoogleFonts.outfit(fontWeight: FontWeight.w600, color: AppColors.primary)),
+                 Text('Operational Data', style: GoogleFonts.outfit(fontWeight: FontWeight.w600, color: colorScheme.primary)),
                  TextButton.icon(
                    onPressed: _selectDate,
                    icon: const Icon(Icons.calendar_today, size: 16),
@@ -373,7 +400,7 @@ class _HomeTabState extends State<HomeTab> {
              Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
-                 Text('Monthly Aggregation', style: GoogleFonts.outfit(fontWeight: FontWeight.w600, color: AppColors.primary)),
+                 Text('Monthly Aggregation', style: GoogleFonts.outfit(fontWeight: FontWeight.w600, color: colorScheme.primary)),
                  TextButton.icon(
                    onPressed: _selectMonth,
                    icon: const Icon(Icons.calendar_month, size: 16),
@@ -396,9 +423,9 @@ class _HomeTabState extends State<HomeTab> {
                   },
                   borderRadius: BorderRadius.circular(100),
                   constraints: const BoxConstraints(minWidth: 100, minHeight: 36),
-                  fillColor: AppColors.primaryContainer,
-                  selectedColor: AppColors.onPrimaryContainer,
-                  color: AppColors.outline,
+                  fillColor: colorScheme.primaryContainer,
+                  selectedColor: colorScheme.onPrimaryContainer,
+                  color: colorScheme.outline,
                   children: const [
                       Text('Daily'),
                       Text('Monthly'),
@@ -441,6 +468,7 @@ class _HomeTabState extends State<HomeTab> {
 
   Widget _buildSegmentButton(String label, int index) {
     final isActive = _activeSegment == index;
+    final colorScheme = Theme.of(context).colorScheme;
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -453,7 +481,7 @@ class _HomeTabState extends State<HomeTab> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.surface : Colors.transparent,
+            color: isActive ? colorScheme.surface : Colors.transparent,
             borderRadius: BorderRadius.circular(100),
             boxShadow: isActive
                 ? [
@@ -467,7 +495,7 @@ class _HomeTabState extends State<HomeTab> {
             style: GoogleFonts.outfit(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: isActive ? AppColors.primary : AppColors.outline,
+              color: isActive ? colorScheme.primary : colorScheme.outline,
             ),
           ),
         ),
@@ -476,15 +504,16 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget _buildTodayView() {
+    final colorScheme = Theme.of(context).colorScheme;
     if (_dailyStats == null) {
       return Center(
         child: Container(
           padding: const EdgeInsets.all(32),
           child: Column(
             children: [
-              const Icon(Icons.cloud_off, size: 48, color: AppColors.outline),
+              Icon(Icons.cloud_off, size: 48, color: colorScheme.outline),
               const SizedBox(height: 16),
-              Text('No data for selected date', style: GoogleFonts.outfit(color: AppColors.outline)),
+              Text('No data for selected date', style: GoogleFonts.outfit(color: colorScheme.outline)),
             ],
           ),
         ),
@@ -628,12 +657,13 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget _buildSchemeCard(String title, int count, IconData icon, Color color) {
+      final colorScheme = Theme.of(context).colorScheme;
       return Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.outline.withOpacity(0.1)),
+              border: Border.all(color: colorScheme.outline.withOpacity(0.1)),
           ),
           child: Row(
               children: [
@@ -649,12 +679,12 @@ class _HomeTabState extends State<HomeTab> {
                   Expanded(
                       child: Text(
                           title,
-                          style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                       ),
                   ),
                   Text(
                       count.toString(),
-                      style: GoogleFonts.outfit(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.outfit(fontSize: 24, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                   ),
               ],
           ),
@@ -662,10 +692,11 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget _buildTotalCard({required String label, required num amount, required int count}) {
+      final colorScheme = Theme.of(context).colorScheme;
       return Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppColors.tertiaryContainer,
+            color: colorScheme.tertiaryContainer,
             borderRadius: BorderRadius.circular(24),
           ),
           child: Row(
@@ -680,7 +711,7 @@ class _HomeTabState extends State<HomeTab> {
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
-                      color: AppColors.onTertiaryContainer.withOpacity(0.7),
+                      color: colorScheme.onTertiaryContainer.withOpacity(0.7),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -689,7 +720,7 @@ class _HomeTabState extends State<HomeTab> {
                     style: GoogleFonts.outfit(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.onTertiaryContainer,
+                      color: colorScheme.onTertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -697,7 +728,7 @@ class _HomeTabState extends State<HomeTab> {
                     '$count Txns',
                     style: GoogleFonts.outfit(
                       fontSize: 14,
-                      color: AppColors.onTertiaryContainer.withOpacity(0.8),
+                      color: colorScheme.onTertiaryContainer.withOpacity(0.8),
                     ),
                   ),
                 ],
@@ -708,8 +739,8 @@ class _HomeTabState extends State<HomeTab> {
                   color: Colors.white.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Icon(Icons.trending_up,
-                    color: AppColors.onTertiaryContainer),
+                child: Icon(Icons.trending_up,
+                    color: colorScheme.onTertiaryContainer),
               ),
             ],
           ),

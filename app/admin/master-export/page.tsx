@@ -93,21 +93,21 @@ export default function MasterExportPage() {
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                     Master Export Module
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-600 dark:text-gray-400 mt-2">
                     Export system data to CSV for analysis and reporting.
                 </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Agents Export */}
-                <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg transition">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6 hover:shadow-lg transition">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 bg-blue-50 rounded-lg text-blue-600 text-2xl">
+                        <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-600 dark:text-blue-400 text-2xl">
                             👥
                         </div>
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-800">Agents</h2>
-                            <p className="text-sm text-gray-500">Export complete agent list</p>
+                            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Agents</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Export complete agent list</p>
                         </div>
                     </div>
                     <button
@@ -127,14 +127,14 @@ export default function MasterExportPage() {
                 </div>
 
                 {/* Devices Export */}
-                <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg transition">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6 hover:shadow-lg transition">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 bg-purple-50 rounded-lg text-purple-600 text-2xl">
+                        <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400 text-2xl">
                             📱
                         </div>
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-800">Devices</h2>
-                            <p className="text-sm text-gray-500">Export registered devices</p>
+                            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Devices</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Export registered devices</p>
                         </div>
                     </div>
                     <button
@@ -154,16 +154,16 @@ export default function MasterExportPage() {
                 </div>
 
                 {/* Daily Performance Export */}
-                <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg transition">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6 hover:shadow-lg transition">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 bg-green-50 rounded-lg text-green-600 text-2xl">
+                        <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-600 dark:text-green-400 text-2xl">
                             📊
                         </div>
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-800">
+                            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
                                 Daily Performance
                             </h2>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                                 Export performance by date range
                             </p>
                         </div>
@@ -171,25 +171,25 @@ export default function MasterExportPage() {
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                                 Start Date
                             </label>
                             <input
                                 type="date"
                                 value={perfStartDate}
                                 onChange={(e) => setPerfStartDate(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                                 End Date
                             </label>
                             <input
                                 type="date"
                                 value={perfEndDate}
                                 onChange={(e) => setPerfEndDate(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
                         </div>
                     </div>
@@ -215,16 +215,16 @@ export default function MasterExportPage() {
                 </div>
 
                 {/* Commissions Export */}
-                <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg transition">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6 hover:shadow-lg transition">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 bg-orange-50 rounded-lg text-orange-600 text-2xl">
+                        <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-orange-600 dark:text-orange-400 text-2xl">
                             💰
                         </div>
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-800">
+                            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
                                 Commissions
                             </h2>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                                 Export calculated commissions
                             </p>
                         </div>
@@ -232,13 +232,13 @@ export default function MasterExportPage() {
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                                 Month
                             </label>
                             <select
                                 value={commMonth}
                                 onChange={(e) => setCommMonth(parseInt(e.target.value))}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             >
                                 {months.map((m) => (
                                     <option key={m.value} value={m.value}>
@@ -248,13 +248,13 @@ export default function MasterExportPage() {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                                 Year
                             </label>
                             <select
                                 value={commYear}
                                 onChange={(e) => setCommYear(parseInt(e.target.value))}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             >
                                 {years.map((y) => (
                                     <option key={y} value={y}>
