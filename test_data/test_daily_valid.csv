@@ -1,0 +1,4 @@
+State,Zone,Sol_Id,Deviceid,BC_Agent_Name,OD_Account_Number,Deposit_Txn_Count,Deposit_Txn_Amount,Withdrawal_Txn_Count,Withdrawal_Txn_Amount,AEPS_Onus_Count,AEPS_Onus_Amt,AEPS_Offus_Count,AEPS_Offus_Amt,Rupay_Card_Count,Rupay_Card_Amount,Other_Card_Count,Other_Card_Amount,Remittance_Count,Remittance_Amt,Enrollment_Count,PMJBY_Count,PMSBY_Count,APY_Count,Onlineaccount count,BCname
+Karnataka,South,SOL001,DEV12345,Rajesh Kumar,OD123456789,25,125000.50,18,89000.75,12,45000,8,22000,5,15000,3,8500,2,5000,10,2,1,3,15,BC Services
+Karnataka,South,SOL002,DEV12346,Priya Sharma,OD987654321,30,180000,22,95000,15,55000,10,28000,7,20000,4,10000,3,7500,12,3,2,4,18,BC Plus
+Karnataka,North,SOL003,DEV12347,Amit Patel,OD456789123,20,95000,15,65000,10,35000,6,18000,4,12000,2,6000,1,3000,8,1,1,2,10,Financial Services

@@ -1,0 +1,3 @@
+State,Zone,Sol_Id,Deviceid,BC_Agent_Name,OD_Account_Number,Deposit_Txn_Count,Deposit_Txn_Amount,Withdrawal_Txn_Count,Withdrawal_Txn_Amount,AEPS_Onus_Count,AEPS_Onus_Amt,AEPS_Offus_Count,AEPS_Offus_Amt,Rupay_Card_Count,Rupay_Card_Amount,Other_Card_Count,Other_Card_Amount,Remittance_Count,Remittance_Amt,Enrollment_Count,PMJBY_Count,PMSBY_Count,APY_Count,Onlineaccount count,BCname
+Karnataka,South,SOL001,DEV99999,Test Agent,OD111111111,10,50000,5,20000,3,15000,2,8000,1,5000,1,3000,1,2000,5,1,0,1,8,Test BC
+Karnataka,South,SOL002,DEV99999,Test Agent,OD222222222,15,75000,8,35000,5,20000,3,10000,2,7000,1,4000,1,2500,7,0,1,2,10,Test BC Duplicate
