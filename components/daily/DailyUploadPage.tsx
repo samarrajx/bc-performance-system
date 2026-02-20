@@ -61,6 +61,7 @@ export default function DailyUploadPage() {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
+      dynamicTyping: false, // Ensure all fields are read as strings to preserve leading zeros
       complete: async function (results: Papa.ParseResult<any>) {
         try {
           // Step 1: Validate headers
@@ -151,19 +152,19 @@ export default function DailyUploadPage() {
   // ============================================================
   return (
     <div className="max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent mb-2">
+      <div className="mb-8 max-w-2xl">
+        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent mb-2 tracking-tight">
           Daily Performance Upload
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-slate-500 dark:text-slate-400 font-medium">
           Upload daily performance data for all agents
         </p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+      <div className="glass-panel p-8 rounded-3xl">
         {/* Date Selection */}
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
             Performance Date
           </label>
           <input
@@ -171,25 +172,25 @@ export default function DailyUploadPage() {
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50"
+            className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300 disabled:opacity-50"
           />
         </div>
 
         {/* Template Download */}
-        <div className="mb-6">
+        <div className="mb-8">
           <button
             onClick={downloadTemplate}
             disabled={loading}
-            className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:from-cyan-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg hover:shadow-xl flex items-center gap-2"
+            className="px-6 py-3 bg-slate-500/10 hover:bg-slate-500/20 text-slate-700 dark:text-slate-300 font-bold rounded-xl border border-slate-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2"
           >
-            <span>📥</span>
+            <span className="text-xl">📥</span>
             <span>Download CSV Template</span>
           </button>
         </div>
 
         {/* File Upload */}
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
             Upload Performance File
           </label>
           <input
@@ -201,19 +202,19 @@ export default function DailyUploadPage() {
               }
             }}
             disabled={loading}
-            className="w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-teal-500 dark:hover:border-teal-500 focus:outline-none focus:border-teal-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 dark:file:bg-teal-900/40 file:text-teal-700 dark:file:text-teal-300 hover:file:bg-teal-100 dark:hover:file:bg-teal-900/60 disabled:opacity-50 disabled:cursor-not-allowed text-gray-600 dark:text-gray-300"
+            className="w-full px-4 py-8 border-2 border-dashed border-emerald-500/30 dark:border-emerald-500/20 rounded-2xl cursor-pointer hover:border-emerald-500 dark:hover:border-emerald-500 focus:outline-none focus:border-emerald-500 transition-all bg-white/30 dark:bg-black/20 file:mr-4 file:py-2 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-emerald-500 file:text-white hover:file:bg-emerald-600 file:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-slate-600 dark:text-slate-300 text-center"
           />
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 font-medium text-center">
             Accepted format: CSV file only
           </p>
         </div>
 
         {/* Loading State */}
         {loading && (
-          <div className="flex items-center justify-center py-8">
+          <div className="flex items-center justify-center py-10 glass-panel rounded-2xl mb-6">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500 mx-auto mb-4"></div>
-              <p className="text-gray-600 dark:text-gray-300 font-medium">Processing upload...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500/30 border-t-emerald-600 mx-auto mb-4"></div>
+              <p className="text-slate-500 dark:text-slate-400 font-medium animate-pulse">Processing upload...</p>
             </div>
           </div>
         )}
@@ -221,14 +222,14 @@ export default function DailyUploadPage() {
         {/* Messages */}
         {message && (
           <div
-            className={`p-4 rounded-lg border ${message.type === "success"
-              ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
-              : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
+            className={`p-4 rounded-2xl border ${message.type === "success"
+              ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400"
+              : "bg-red-500/10 border-red-500/20 text-red-700 dark:text-red-400"
               }`}
           >
             <div className="flex items-start gap-3">
-              <span className="text-xl">{message.type === "success" ? "✓" : "⚠"}</span>
-              <p className="text-sm font-medium">{message.text}</p>
+              <span className="text-xl">{message.type === "success" ? "✅" : "⚠️"}</span>
+              <p className="text-sm font-bold">{message.text}</p>
             </div>
           </div>
         )}

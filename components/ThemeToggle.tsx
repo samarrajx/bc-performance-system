@@ -9,9 +9,9 @@ export default function ThemeToggle() {
         <button
             onClick={toggleTheme}
             className={`
-        relative p-2 rounded-full transition-all duration-300 ease-in-out
-        hover:bg-gray-100 dark:hover:bg-white/10
-        focus:outline-none focus:ring-2 focus:ring-green-500/50
+        relative p-2 rounded-xl transition-all duration-300 ease-in-out
+        glass-panel hover:bg-white/30 dark:hover:bg-black/30
+        focus:outline-none focus:ring-2 focus:ring-emerald-500/50
       `}
             aria-label="Toggle Theme"
         >

@@ -1,8 +1,6 @@
 -- =====================================================
--- Commission Upload RPC Function
+-- Commission Upload RPC Function (Updated to match User DDL)
 -- =====================================================
--- Handles commission data upload with full replace logic
--- Prerequisites: Run schema_commissions.sql first
 
 CREATE OR REPLACE FUNCTION commission_upload(
   commission_data JSONB,
@@ -45,13 +43,11 @@ BEGIN
   LOOP
     v_agent_id := v_row->>'agent_id';
     
-    -- Skip rows with empty agent_id (should be caught by frontend validation)
+    -- Skip rows with empty agent_id
     IF v_agent_id IS NULL OR v_agent_id = '' THEN
       CONTINUE;
     END IF;
     
-    -- Insert commission record with ALL detail columns
-    -- Note: TDS values are pre-calculated in application layer
     INSERT INTO commissions (
       agent_id, month, year,
       
@@ -143,7 +139,7 @@ BEGIN
       COALESCE((v_row->>'tds_amount')::NUMERIC, 0),
       COALESCE((v_row->>'agent_net_payable')::NUMERIC, 0),
       
-      FALSE  -- Always insert as unapproved
+      FALSE
     );
     
     v_inserted_count := v_inserted_count + 1;
@@ -154,11 +150,7 @@ BEGIN
   -- =====================================================
   
   INSERT INTO upload_logs (
-    file_type,
-    file_name,
-    upload_mode,
-    rows_count,
-    status
+    file_type, file_name, upload_mode, rows_count, status
   ) VALUES (
     'COMMISSION_UPLOAD',
     'commission_' || upload_month || '_' || upload_year || '.xlsx',
@@ -166,10 +158,6 @@ BEGIN
     v_inserted_count,
     'SUCCESS'
   );
-  
-  -- =====================================================
-  -- STEP 5: Return summary
-  -- =====================================================
   
   RETURN jsonb_build_object(
     'inserted_count', v_inserted_count,
@@ -179,17 +167,8 @@ BEGIN
   );
   
 EXCEPTION WHEN OTHERS THEN
-  -- =====================================================
-  -- Error handling: Log failed upload and re-raise
-  -- =====================================================
-  
   INSERT INTO upload_logs (
-    file_type,
-    file_name,
-    upload_mode,
-    rows_count,
-    status,
-    error_message
+    file_type, file_name, upload_mode, rows_count, status, error_message
   ) VALUES (
     'COMMISSION_UPLOAD',
     'commission_' || upload_month || '_' || upload_year || '.xlsx',
@@ -198,21 +177,8 @@ EXCEPTION WHEN OTHERS THEN
     'FAILED',
     SQLERRM
   );
-  
   RAISE;
 END;
 $$;
 
--- =====================================================
--- Grant execute permission to authenticated users
--- =====================================================
-
 GRANT EXECUTE ON FUNCTION commission_upload(JSONB, INTEGER, INTEGER) TO authenticated;
-
--- =====================================================
--- Test query (run after upload)
--- =====================================================
--- SELECT COUNT(*), month, year
--- FROM commissions
--- GROUP BY month, year
--- ORDER BY year DESC, month DESC;

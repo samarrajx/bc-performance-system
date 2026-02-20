@@ -134,6 +134,18 @@ const validateNumericFields = (row: any, rowNumber: number) => {
 };
 
 /**
+ * Helper to normalize Device IDs (e.g. add leading zero if missing)
+ */
+const normalizeDeviceId = (id: string): string => {
+  if (!id) return id;
+  const trimmed = id.trim();
+  if (trimmed.length === 9) {
+    return "0" + trimmed;
+  }
+  return trimmed;
+};
+
+/**
  * Normalizes a row by converting blank numeric fields to "0"
  * and stripping leading apostrophes (Excel text format marker)
  * This prepares the data for backend processing
@@ -148,6 +160,12 @@ export const normalizeRow = (row: any) => {
     // Strip leading apostrophe if present (Excel text format marker)
     if (typeof value === 'string' && value.startsWith("'")) {
       value = value.substring(1);
+    }
+
+    // Special handling for Deviceid
+    if (key === "Deviceid") {
+      normalized[key] = normalizeDeviceId(value?.toString() || "");
+      continue;
     }
 
     // Convert blank numeric fields to "0"

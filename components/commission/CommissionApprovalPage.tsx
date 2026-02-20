@@ -11,7 +11,7 @@ interface Commission {
     year: number;
     bc_comm: number;
     corp_comm: number;
-    net_commission_raw: number;
+    net_commission: number;
     tds_percent: number;
     tds_amount: number;
     agent_net_payable: number;
@@ -109,37 +109,37 @@ export default function CommissionApprovalPage() {
 
     return (
         <AdminLayout>
-            <div className="mb-8">
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
+            <div className="mb-8 max-w-2xl">
+                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent mb-2 tracking-tight">
                     Commission Approval
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-slate-500 dark:text-slate-400 font-medium">
                     Review and approve commission data for agents
                 </p>
             </div>
 
             {/* Selection Controls */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <div className="glass-panel p-6 rounded-3xl mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                             Select Month
                         </label>
                         <select
                             value={selectedMonth}
                             onChange={(e) => setSelectedMonth(e.target.value)}
-                            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300 disabled:opacity-50"
                             disabled={loading}
                         >
-                            <option value="">Choose a month</option>
+                            <option value="" className="dark:bg-slate-900">Choose a month</option>
                             {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
-                                <option key={m} value={m}>{getMonthName(m)}</option>
+                                <option key={m} value={m} className="dark:bg-slate-900">{getMonthName(m)}</option>
                             ))}
                         </select>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                             Select Year
                         </label>
                         <input
@@ -149,7 +149,7 @@ export default function CommissionApprovalPage() {
                             min="2020"
                             max="2100"
                             placeholder="e.g., 2024"
-                            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300 disabled:opacity-50 placeholder-slate-400"
                             disabled={loading}
                         />
                     </div>
@@ -157,7 +157,7 @@ export default function CommissionApprovalPage() {
                     <button
                         onClick={fetchCommissions}
                         disabled={loading || !selectedMonth || !selectedYear}
-                        className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg hover:shadow-xl"
+                        className="w-full px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-1 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                     >
                         {loading ? 'Loading...' : 'Load Commissions'}
                     </button>
@@ -167,20 +167,20 @@ export default function CommissionApprovalPage() {
             {/* Messages */}
             {message && (
                 <div
-                    className={`p-4 rounded-lg border mb-6 ${message.type === "success"
-                        ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
-                        : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
+                    className={`p-4 rounded-2xl border mb-6 ${message.type === "success"
+                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400"
+                        : "bg-red-500/10 border-red-500/20 text-red-700 dark:text-red-400"
                         }`}
                 >
                     <div className="flex items-start gap-3">
                         <span className="text-xl">
-                            {message.type === "success" ? "✓" : "⚠"}
+                            {message.type === "success" ? "✅" : "⚠️"}
                         </span>
                         <div className="flex-1">
-                            <p className="font-semibold mb-1">
+                            <p className="font-bold mb-1">
                                 {message.type === "success" ? "Success!" : "Error"}
                             </p>
-                            <p className="text-sm">{message.text}</p>
+                            <p className="text-sm font-medium">{message.text}</p>
                         </div>
                     </div>
                 </div>
@@ -190,52 +190,52 @@ export default function CommissionApprovalPage() {
             {commissions.length > 0 && (
                 <>
                     {/* Approve All Button */}
-                    <div className="mb-6">
+                    <div className="mb-6 flex justify-end">
                         <button
                             onClick={approveAll}
                             disabled={loading || commissions.every(c => c.approved)}
-                            className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg hover:shadow-xl flex items-center gap-2"
+                            className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2"
                         >
-                            <span>✓</span>
+                            <span>✅</span>
                             <span>Approve All ({commissions.filter(c => !c.approved).length} pending)</span>
                         </button>
                     </div>
 
                     {/* Table */}
-                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
+                    <div className="glass-panel rounded-2xl overflow-hidden shadow-lg border-white/20 dark:border-white/10">
+                        <div className="overflow-x-auto custom-scrollbar">
+                            <table className="w-full text-left border-collapse whitespace-nowrap">
+                                <thead className="bg-white/40 dark:bg-black/40 backdrop-blur-md border-b border-white/20 dark:border-white/10 text-slate-600 dark:text-slate-300">
                                     <tr>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Agent ID</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">BC Comm</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Corp Comm</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Net Comm</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">TDS ({commissions[0]?.tds_percent}%)</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">TDS Amount</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Net Payable</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider">Agent ID</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider">BC Comm</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider">Corp Comm</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider">Net Comm</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider">TDS ({commissions[0]?.tds_percent}%)</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider">TDS Amount</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider">Net Payable</th>
+                                        <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-right">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                                <tbody className="divide-y divide-white/10 dark:divide-white/5">
                                     {commissions.map((comm) => (
-                                        <tr key={comm.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-white font-medium">{comm.agent_id}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">₹{comm.bc_comm.toFixed(2)}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">₹{comm.corp_comm.toFixed(2)}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">₹{comm.net_commission_raw.toFixed(2)}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">{comm.tds_percent.toFixed(2)}%</td>
-                                            <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">₹{comm.tds_amount.toFixed(2)}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-white font-bold">
+                                        <tr key={comm.id} className="hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
+                                            <td className="px-6 py-4 text-sm font-bold text-slate-800 dark:text-slate-200">{comm.agent_id}</td>
+                                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium">₹{comm.bc_comm.toFixed(2)}</td>
+                                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium">₹{comm.corp_comm.toFixed(2)}</td>
+                                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium">₹{(comm.net_commission || 0).toFixed(2)}</td>
+                                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium">{comm.tds_percent.toFixed(2)}%</td>
+                                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium">₹{comm.tds_amount.toFixed(2)}</td>
+                                            <td className="px-6 py-4 text-sm text-emerald-600 dark:text-emerald-400 font-bold">
                                                 ₹{comm.agent_net_payable.toFixed(2)}
                                             </td>
-                                            <td className="px-6 py-4 text-sm">
+                                            <td className="px-6 py-4 text-sm text-right">
                                                 {comm.approved ? (
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300">
+                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                                                         ✓ Approved
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300">
+                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
                                                         Pending
                                                     </span>
                                                 )}
@@ -243,27 +243,27 @@ export default function CommissionApprovalPage() {
                                         </tr>
                                     ))}
                                 </tbody>
-                                <tfoot className="bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800 dark:to-slate-800">
-                                    <tr className="font-semibold">
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">TOTAL</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                                <tfoot className="bg-white/50 dark:bg-black/50 backdrop-blur-md border-t border-white/20 dark:border-white/10">
+                                    <tr className="font-bold text-slate-800 dark:text-slate-200">
+                                        <td className="px-6 py-4 text-sm">TOTAL</td>
+                                        <td className="px-6 py-4 text-sm">
                                             ₹{commissions.reduce((sum, c) => sum + c.bc_comm, 0).toFixed(2)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                                        <td className="px-6 py-4 text-sm">
                                             ₹{commissions.reduce((sum, c) => sum + c.corp_comm, 0).toFixed(2)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                                            ₹{commissions.reduce((sum, c) => sum + c.net_commission_raw, 0).toFixed(2)}
+                                        <td className="px-6 py-4 text-sm">
+                                            ₹{commissions.reduce((sum, c) => sum + (c.net_commission || 0), 0).toFixed(2)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">-</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                                        <td className="px-6 py-4 text-sm text-slate-500">-</td>
+                                        <td className="px-6 py-4 text-sm">
                                             ₹{commissions.reduce((sum, c) => sum + c.tds_amount, 0).toFixed(2)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white font-bold">
+                                        <td className="px-6 py-4 text-sm text-emerald-600 dark:text-emerald-400">
                                             ₹{commissions.reduce((sum, c) => sum + c.agent_net_payable, 0).toFixed(2)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                                            {commissions.filter(c => c.approved).length} / {commissions.length}
+                                        <td className="px-6 py-4 text-sm text-right">
+                                            <span className="bg-slate-500/10 px-3 py-1 rounded-full border border-slate-500/20">{commissions.filter(c => c.approved).length} / {commissions.length}</span>
                                         </td>
                                     </tr>
                                 </tfoot>

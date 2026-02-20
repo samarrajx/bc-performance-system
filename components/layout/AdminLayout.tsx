@@ -56,13 +56,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div
       onClick={() => router.push(path)}
       className={`px-4 py-2.5 ml-2 rounded-lg cursor-pointer flex items-center gap-3 text-sm transition-all duration-300 relative group overflow-hidden ${isActive
-        ? "bg-green-600/20 text-green-300 font-semibold border-r-2 border-green-500"
-        : "text-gray-400 hover:text-white hover:bg-white/5"
+        ? "bg-emerald-500/20 text-emerald-300 font-semibold border-r-2 border-emerald-500"
+        : "text-slate-400 hover:text-white hover:bg-white/5"
         }`}
     >
-      <span className={`text-lg opacity-80 transition-transform duration-300 ${isActive ? 'scale-110 text-green-400' : 'group-hover:scale-110'}`}>{icon}</span>
+      <span className={`text-lg opacity-80 transition-transform duration-300 ${isActive ? 'scale-110 text-emerald-400' : 'group-hover:scale-110'}`}>{icon}</span>
       <span className="relative z-10">{label}</span>
-      {isActive && <div className="absolute inset-0 bg-green-500/5 blur-sm"></div>}
+      {isActive && <div className="absolute inset-0 bg-emerald-500/5 blur-sm"></div>}
     </div>
   );
 
@@ -71,26 +71,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       onClick={() => toggleGroup(id)}
       className="px-4 py-3 mt-4 cursor-pointer flex items-center justify-between group hover:bg-white/5 rounded-xl transition-all duration-300 select-none"
     >
-      <div className="flex items-center gap-3 text-gray-300 font-medium group-hover:text-white transition-colors">
+      <div className="flex items-center gap-3 text-slate-300 font-medium group-hover:text-white transition-colors">
         <span className="text-xl filter grayscale group-hover:grayscale-0 transition-all duration-500">{icon}</span>
-        <span className="tracking-wide text-sm uppercase font-bold text-gray-500 group-hover:text-gray-300 transition-colors">{title}</span>
+        <span className="tracking-wide text-sm uppercase font-bold text-slate-500 group-hover:text-slate-300 transition-colors">{title}</span>
       </div>
-      <span className={`text-[10px] text-gray-600 transform transition-transform duration-300 ${openGroup === id ? 'rotate-180 text-green-500' : 'group-hover:text-gray-400'}`}>
+      <span className={`text-[10px] text-slate-500 transform transition-transform duration-300 ${openGroup === id ? 'rotate-180 text-emerald-500' : 'group-hover:text-slate-400'}`}>
         ▼
       </span>
     </div>
   );
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-[#0a0a0a] overflow-hidden font-sans transition-colors duration-300">
+    <div className="flex h-screen w-full overflow-hidden font-sans">
 
-      {/* Modern Sidebar with Gradient */}
-      <div className="w-72 bg-[#0a270b] dark:bg-[#051a06] text-white flex flex-col shadow-2xl z-20 sticky top-0 h-screen overflow-y-auto custom-scrollbar border-r border-white/5 dark:border-white/10">
+      {/* Modern Glass Sidebar */}
+      <div className="w-72 glass-panel border-y-0 border-l-0 rounded-none bg-white/40 dark:bg-black/40 text-slate-800 dark:text-white flex flex-col z-20 sticky top-0 h-screen overflow-y-auto custom-scrollbar">
         {/* Header */}
-        <div className="p-6 border-b border-white/10 sticky top-0 bg-[#0a270b]/95 dark:bg-[#051a06]/95 z-10 backdrop-blur-md">
+        <div className="p-6 border-b border-white/20 dark:border-white/10 sticky top-0 bg-white/50 dark:bg-black/50 z-10 backdrop-blur-xl">
           <div className="flex items-center gap-4 group">
             <div className="relative">
-              <div className="absolute inset-0 bg-green-500 blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-full"></div>
+              <div className="absolute inset-0 bg-emerald-500 blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-full"></div>
               <img
                 src="/logo.svg"
                 alt="Logo"
@@ -98,10 +98,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-wide group-hover:text-green-400 transition-colors">
+              <h2 className="text-xl font-bold tracking-wide group-hover:text-emerald-500 transition-colors">
                 Manager
               </h2>
-              <p className="text-[10px] text-green-400/80 font-semibold tracking-wider uppercase">Admin Console</p>
+              <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold tracking-wider uppercase">Admin Console</p>
             </div>
           </div>
           <div className="mt-4 flex justify-center">
@@ -115,8 +115,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div
             onClick={() => router.push("/dashboard")}
             className={`px-4 py-3 rounded-xl cursor-pointer flex items-center gap-3 transition-all duration-300 group ${pathname === "/dashboard"
-              ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-900/50"
-              : "text-gray-400 hover:bg-white/5 hover:text-white"
+              ? "bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-lg shadow-emerald-500/20"
+              : "text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
               }`}
           >
             <span className={`text-xl transition-transform duration-300 ${pathname === '/dashboard' ? 'scale-110' : 'group-hover:scale-110'}`}>🏠</span>
@@ -166,19 +166,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Footer / Logout */}
-        <div className="p-4 border-t border-white/10 bg-slate-900 dark:bg-black sticky bottom-0 z-10 transition-colors duration-300">
+        <div className="p-4 border-t border-white/20 dark:border-white/10 bg-white/30 dark:bg-black/30 sticky bottom-0 z-10 backdrop-blur-md">
           <button
             onClick={handleLogout}
-            className="w-full bg-white/5 text-gray-300 hover:text-white hover:bg-red-500/20 hover:border-red-500/50 border border-transparent px-4 py-3 rounded-lg transition-all duration-200 font-medium flex items-center justify-center gap-2 group"
+            className="w-full bg-white/5 text-slate-600 dark:text-slate-300 hover:bg-red-500 hover:text-white hover:border-red-500/50 border border-transparent px-4 py-3 rounded-lg transition-all duration-200 font-medium flex items-center justify-center gap-2 group shadow-sm"
           >
-            <span className="group-hover:text-red-400 transition-colors">🚪</span>
-            <span className="group-hover:text-red-100 transition-colors">Sign Out</span>
+            <span className="group-hover:text-white transition-colors">🚪</span>
+            <span className="group-hover:text-white transition-colors">Sign Out</span>
           </button>
         </div>
       </div>
 
       {/* Main Area */}
-      <div className="flex-1 overflow-auto bg-gray-50 dark:bg-[#0a0a0a] relative z-0 transition-colors duration-300">
+      <div className="flex-1 overflow-auto relative z-0">
         {/* Top Bar for Mobile? (Optional, skipping for now as sidebar is fixed) */}
         <div className="max-w-7xl mx-auto p-8 pb-20">
           {children}

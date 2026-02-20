@@ -132,76 +132,77 @@ export default function SystemHealthDashboard() {
     if (loading) {
         return (
             <div className="flex justify-center p-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
             </div>
         );
     }
 
     return (
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-8">
             {/* Summary Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">Total Agents</p>
-                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.totalAgents}</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="glass-panel p-6 rounded-3xl hover:-translate-y-1 transition-transform duration-300">
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Total Agents</p>
+                    <p className="text-3xl font-extrabold text-slate-800 dark:text-slate-100">{stats.totalAgents}</p>
                 </div>
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">Total Devices</p>
-                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.totalDevices}</p>
+                <div className="glass-panel p-6 rounded-3xl hover:-translate-y-1 transition-transform duration-300">
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Total Devices</p>
+                    <p className="text-3xl font-extrabold text-slate-800 dark:text-slate-100">{stats.totalDevices}</p>
                 </div>
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">Unassigned Devices</p>
-                    <p className={`text-2xl font-bold ${stats.orphanDevices > 0 ? 'text-orange-600 dark:text-orange-400' : 'text-green-600 dark:text-green-400'}`}>
+                <div className="glass-panel p-6 rounded-3xl hover:-translate-y-1 transition-transform duration-300">
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Unassigned Devices</p>
+                    <p className={`text-3xl font-extrabold ${stats.orphanDevices > 0 ? 'text-orange-600 dark:text-orange-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
                         {stats.orphanDevices}
                     </p>
                 </div>
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">Agents w/o Device</p>
-                    <p className={`text-2xl font-bold ${stats.agentsWithoutDevices > 0 ? 'text-blue-600 dark:text-blue-400' : 'text-gray-800 dark:text-gray-100'}`}>
+                <div className="glass-panel p-6 rounded-3xl hover:-translate-y-1 transition-transform duration-300">
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Agents w/o Device</p>
+                    <p className={`text-3xl font-extrabold ${stats.agentsWithoutDevices > 0 ? 'text-blue-600 dark:text-blue-400' : 'text-slate-800 dark:text-slate-100'}`}>
                         {stats.agentsWithoutDevices}
                     </p>
                 </div>
             </div>
 
             {/* Issues List */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-6">
-                <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
+            <div className="glass-panel p-8 rounded-3xl mb-8">
+                <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-3 tracking-tight">
                     <span>🏥</span> System Health Issues
                 </h2>
 
                 {issues.length === 0 ? (
-                    <div className="text-center py-8 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800">
-                        <p className="text-green-700 dark:text-green-300 font-medium text-lg">All systems healthy!</p>
-                        <p className="text-green-600 dark:text-green-400 text-sm">No consistency issues found.</p>
+                    <div className="text-center py-12 px-6 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-2xl border border-emerald-500/20 shadow-inner">
+                        <div className="text-5xl mb-4">👍</div>
+                        <p className="text-emerald-800 dark:text-emerald-300 font-extrabold text-2xl tracking-tight mb-2">All systems healthy!</p>
+                        <p className="text-emerald-600/80 dark:text-emerald-400/80 font-medium">No consistency issues found.</p>
                     </div>
                 ) : (
                     <div className="space-y-4">
                         {issues.map((issue, idx) => (
-                            <div key={idx} className={`p-4 rounded-lg border flex items-start gap-4 ${issue.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' :
-                                issue.type === 'warning' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800' :
-                                    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'
+                            <div key={idx} className={`p-6 rounded-2xl border flex items-start gap-5 shadow-sm hover:shadow-md transition-shadow ${issue.type === 'error' ? 'bg-red-500/10 border-red-500/20' :
+                                issue.type === 'warning' ? 'bg-orange-500/10 border-orange-500/20' :
+                                    'bg-blue-500/10 border-blue-500/20'
                                 }`}>
-                                <div className={`text-2xl ${issue.type === 'error' ? 'text-red-600 dark:text-red-400' :
-                                    issue.type === 'warning' ? 'text-orange-600 dark:text-orange-400' :
-                                        'text-blue-600 dark:text-blue-400'
+                                <div className={`text-3xl mt-1 ${issue.type === 'error' ? 'text-red-500 dark:text-red-400' :
+                                    issue.type === 'warning' ? 'text-orange-500 dark:text-orange-400' :
+                                        'text-blue-500 dark:text-blue-400'
                                     }`}>
                                     {issue.type === 'error' ? '⛔' : issue.type === 'warning' ? '⚠️' : 'ℹ️'}
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className={`font-bold ${issue.type === 'error' ? 'text-red-800 dark:text-red-300' :
+                                    <h3 className={`text-lg font-bold tracking-tight mb-1 ${issue.type === 'error' ? 'text-red-800 dark:text-red-300' :
                                         issue.type === 'warning' ? 'text-orange-800 dark:text-orange-300' :
                                             'text-blue-800 dark:text-blue-300'
                                         }`}>
                                         {issue.title}
                                     </h3>
-                                    <p className={`text-sm ${issue.type === 'error' ? 'text-red-700 dark:text-red-200' :
-                                        issue.type === 'warning' ? 'text-orange-700 dark:text-orange-200' :
-                                            'text-blue-700 dark:text-blue-200'
+                                    <p className={`text-sm font-medium ${issue.type === 'error' ? 'text-red-700/80 dark:text-red-200/80' :
+                                        issue.type === 'warning' ? 'text-orange-700/80 dark:text-orange-200/80' :
+                                            'text-blue-700/80 dark:text-blue-200/80'
                                         }`}>
                                         {issue.description}
                                     </p>
                                 </div>
-                                <div className={`text-xl font-bold ${issue.type === 'error' ? 'text-red-800 dark:text-red-300' :
+                                <div className={`text-3xl font-extrabold ${issue.type === 'error' ? 'text-red-800 dark:text-red-300' :
                                     issue.type === 'warning' ? 'text-orange-800 dark:text-orange-300' :
                                         'text-blue-800 dark:text-blue-300'
                                     }`}>

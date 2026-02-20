@@ -67,21 +67,21 @@ export default function ResetPasswordPage() {
 
     return (
         <div className="max-w-2xl">
-            <div className="mb-8">
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
+            <div className="mb-8 max-w-2xl">
+                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent mb-2 tracking-tight">
                     Agent Password Reset
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400">
-                    Reset an agent's password to the default <strong>uco@rcds</strong>.
+                <p className="text-slate-500 dark:text-slate-400 font-medium">
+                    Reset an agent's password to the default <strong className="text-slate-700 dark:text-slate-300">uco@rcds</strong>.
                 </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+            <div className="glass-panel rounded-3xl p-8 border-white/20 dark:border-white/10">
                 <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                         Agent ID
                     </label>
-                    <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4">
                         <input
                             type="text"
                             value={agentId}
@@ -91,12 +91,12 @@ export default function ResetPasswordPage() {
                                 setMessage(null);
                             }}
                             placeholder="e.g., 1001"
-                            className="flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:border-green-500 dark:focus:border-green-400 transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="flex-1 px-4 py-3.5 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300 placeholder-slate-400"
                         />
                         <button
                             onClick={handleVerify}
                             disabled={loading || !agentId}
-                            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-50 transition"
+                            className="px-8 py-3.5 bg-slate-800 hover:bg-slate-700 dark:bg-slate-200 dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                         >
                             Verify
                         </button>
@@ -104,12 +104,14 @@ export default function ResetPasswordPage() {
                 </div>
 
                 {agentName && (
-                    <div className="mb-8 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center justify-between">
+                    <div className="mb-8 p-6 bg-emerald-500/10 dark:bg-emerald-500/5 border border-emerald-500/20 rounded-2xl flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-green-800 dark:text-green-300 font-medium">Agent Name</p>
-                            <p className="text-xl font-bold text-green-900 dark:text-green-100">{agentName}</p>
+                            <p className="text-xs font-bold text-emerald-800/70 dark:text-emerald-300/70 uppercase tracking-wider mb-1">Agent Name</p>
+                            <p className="text-2xl font-extrabold text-emerald-900 dark:text-emerald-100 tracking-tight">{agentName}</p>
                         </div>
-                        <div className="text-3xl">👤</div>
+                        <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center text-2xl shadow-inner">
+                            👤
+                        </div>
                     </div>
                 )}
 
@@ -117,7 +119,7 @@ export default function ResetPasswordPage() {
                     <button
                         onClick={handleReset}
                         disabled={loading}
-                        className="w-full py-4 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 disabled:opacity-50 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                        className="w-full py-4 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-1 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-3"
                     >
                         <span>🔄</span>
                         <span>Reset Password to Default</span>
@@ -127,14 +129,14 @@ export default function ResetPasswordPage() {
                 {/* Messages */}
                 {message && (
                     <div
-                        className={`mt-6 p-4 rounded-lg border ${message.type === "success"
-                            ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
-                            : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
+                        className={`mt-6 p-4 rounded-2xl border ${message.type === "success"
+                            ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400"
+                            : "bg-red-500/10 border-red-500/20 text-red-700 dark:text-red-400"
                             }`}
                     >
                         <div className="flex items-start gap-3">
-                            <span className="text-xl">{message.type === "success" ? "✓" : "⚠"}</span>
-                            <p className="text-sm font-medium">{message.text}</p>
+                            <span className="text-xl">{message.type === "success" ? "✅" : "⚠️"}</span>
+                            <p className="text-sm font-bold">{message.text}</p>
                         </div>
                     </div>
                 )}

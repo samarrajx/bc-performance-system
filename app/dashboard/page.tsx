@@ -134,13 +134,13 @@ export default function Dashboard() {
     textColor: string;
     isCurrency?: boolean;
   }) => (
-    <div className={`relative overflow-hidden rounded-2xl p-6 shadow-lg border border-white/50 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl hover:shadow-2xl transition-all duration-300 group hover:-translate-y-1`}>
+    <div className={`relative overflow-hidden rounded-2xl p-6 glass-panel hover:shadow-2xl transition-all duration-300 group hover:-translate-y-1`}>
       <div className={`absolute top-0 right-0 w-24 h-24 ${gradient} opacity-10 rounded-full blur-2xl -mr-6 -mt-6 group-hover:opacity-20 transition-opacity duration-500`}></div>
 
       <div className="relative z-10 flex items-center justify-between">
         <div>
-          <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{title}</h3>
-          <p className={`text-3xl font-extrabold ${textColor} dark:text-gray-100 tracking-tight`}>
+          <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">{title}</h3>
+          <p className={`text-3xl font-extrabold ${textColor} dark:text-white tracking-tight`}>
             {isCurrency ? `₹${value.toLocaleString()}` : value.toLocaleString()}
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function Dashboard() {
   }) => (
     <div
       onClick={onClick}
-      className="bg-white/70 dark:bg-white/5 backdrop-blur-lg p-6 rounded-2xl shadow-sm border border-white/60 dark:border-white/10 hover:shadow-xl hover:border-green-500/30 dark:hover:border-green-500/30 transition-all duration-300 cursor-pointer group hover:-translate-y-1 relative overflow-hidden"
+      className="glass-panel p-6 rounded-2xl hover:shadow-xl hover:border-emerald-500/30 dark:hover:border-emerald-500/30 transition-all duration-300 cursor-pointer group hover:-translate-y-1 relative overflow-hidden"
     >
       <div className={`absolute inset-0 bg-gradient-to-br ${colorClass} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
       <div className="flex items-start gap-4 relaitve z-10">
@@ -174,11 +174,11 @@ export default function Dashboard() {
           {icon}
         </div>
         <div>
-          <h3 className="font-bold text-gray-800 dark:text-gray-200 text-lg group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors">{title}</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{desc}</p>
+          <h3 className="font-bold text-slate-800 dark:text-slate-200 text-lg group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">{title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{desc}</p>
         </div>
       </div>
-      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 text-green-500 dark:text-green-400">
+      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 text-emerald-500 dark:text-emerald-400">
         →
       </div>
     </div>
@@ -187,10 +187,10 @@ export default function Dashboard() {
   return (
     <AdminLayout>
       <div className="mb-10">
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent mb-2 tracking-tight">
+        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-blue-600 dark:from-emerald-400 dark:to-blue-400 bg-clip-text text-transparent mb-2 tracking-tight">
           Overview
         </h1>
-        <p className="text-gray-500 dark:text-gray-400 font-medium">
+        <p className="text-slate-500 dark:text-slate-400 font-medium">
           Real-time insights and quick actions.
         </p>
       </div>
@@ -198,8 +198,8 @@ export default function Dashboard() {
       {loading ? (
         <div className="flex items-center justify-center h-64">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-green-500/30 border-t-green-600 rounded-full animate-spin"></div>
-            <p className="text-gray-400 font-medium animate-pulse">Gathering insights...</p>
+            <div className="w-12 h-12 border-4 border-emerald-500/30 border-t-emerald-600 rounded-full animate-spin"></div>
+            <p className="text-slate-400 dark:text-slate-500 font-medium animate-pulse">Gathering insights...</p>
           </div>
         </div>
       ) : (
@@ -249,8 +249,8 @@ export default function Dashboard() {
               title="Active Agents"
               value={activeAgents}
               icon="🟢"
-              gradient="bg-green-500"
-              textColor="text-green-600"
+              gradient="bg-emerald-500"
+              textColor="text-emerald-600"
             />
             <StatCard
               title="Inactive Agents"
@@ -263,7 +263,7 @@ export default function Dashboard() {
 
           {/* Quick Access Section */}
           <div className="space-y-6">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
               <span className="text-2xl">🚀</span> Quick Actions
             </h2>
 

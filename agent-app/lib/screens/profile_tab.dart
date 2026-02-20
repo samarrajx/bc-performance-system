@@ -31,7 +31,7 @@ class _ProfileTabState extends State<ProfileTab> {
         final data = await Supabase.instance.client
             .from('agents')
             .select()
-            .eq('agent_id', agentId)
+            .ilike('agent_id', agentId) // Case-insensitive
             .maybeSingle();
         
         if (mounted) {

@@ -105,29 +105,29 @@ export default function UploadLogsPage() {
 
     return (
         <AdminLayout>
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <div className="mb-8 max-w-2xl">
+                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent mb-2 tracking-tight">
                     System Audit Logs
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400 mt-2">
+                <p className="text-slate-500 dark:text-slate-400 font-medium tracking-wide">
                     Track all system uploads, exports, and data modifications.
                 </p>
             </div>
 
             {/* Filters */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="glass-panel p-6 rounded-3xl mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div>
-                        <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                             File Type
                         </label>
                         <select
                             value={filterType}
                             onChange={(e) => setFilterType(e.target.value)}
-                            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300"
                         >
                             {fileTypes.map((t) => (
-                                <option key={t} value={t}>
+                                <option key={t} value={t} className="dark:bg-slate-900">
                                     {t.replace(/_/g, " ")}
                                 </option>
                             ))}
@@ -135,118 +135,116 @@ export default function UploadLogsPage() {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                             Status
                         </label>
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300"
                         >
-                            <option value="ALL">All Status</option>
-                            <option value="SUCCESS">Success</option>
-                            <option value="FAILED">Failed</option>
+                            <option value="ALL" className="dark:bg-slate-900">All Status</option>
+                            <option value="SUCCESS" className="dark:bg-slate-900">Success</option>
+                            <option value="FAILED" className="dark:bg-slate-900">Failed</option>
                         </select>
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                             From Date
                         </label>
                         <input
                             type="date"
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
-                            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                             To Date
                         </label>
                         <input
                             type="date"
                             value={endDate}
                             onChange={(e) => setEndDate(e.target.value)}
-                            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Table */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
+            <div className="glass-panel rounded-3xl overflow-hidden shadow-lg border-white/20 dark:border-white/10">
+                <div className="overflow-x-auto custom-scrollbar">
+                    <table className="w-full text-left border-collapse">
+                        <thead className="bg-white/40 dark:bg-black/40 backdrop-blur-md border-b border-white/20 dark:border-white/10">
                             <tr>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-8 py-5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                     Timestamp
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-8 py-5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                     File Type
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-8 py-5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                     File Name
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-8 py-5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                     Mode
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-8 py-5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                     Rows
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-8 py-5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                     Status
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                        <tbody className="divide-y divide-white/10 dark:divide-white/5">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={6} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
-                                        <div className="flex justify-center items-center gap-2">
-                                            <div className="animate-spin h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+                                    <td colSpan={6} className="px-8 py-12 text-center text-slate-500 dark:text-slate-400 font-medium">
+                                        <div className="flex justify-center items-center gap-3">
+                                            <div className="animate-spin h-5 w-5 border-2 border-emerald-500/30 border-t-emerald-600 rounded-full"></div>
                                             Loading logs...
                                         </div>
                                     </td>
                                 </tr>
                             ) : logs.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                    <td colSpan={6} className="px-8 py-12 text-center text-slate-500 dark:text-slate-400 font-medium">
                                         No logs found matching your filters.
                                     </td>
                                 </tr>
                             ) : (
                                 logs.map((log) => (
-                                    <tr key={log.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    <tr key={log.id} className="hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
+                                        <td className="px-8 py-4 whitespace-nowrap text-sm font-medium text-slate-600 dark:text-slate-400">
                                             {new Date(log.created_at).toLocaleString()}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
+                                        <td className="px-8 py-4 whitespace-nowrap">
+                                            <span className="px-3 py-1 text-xs font-bold rounded-md bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20">
                                                 {log.file_type}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">
+                                        <td className="px-8 py-4 whitespace-nowrap text-sm font-bold text-slate-800 dark:text-slate-200">
                                             {log.file_name}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td className="px-8 py-4 whitespace-nowrap text-sm font-medium text-slate-600 dark:text-slate-400">
                                             {log.upload_mode}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200 font-medium">
+                                        <td className="px-8 py-4 whitespace-nowrap text-sm font-bold text-slate-800 dark:text-slate-200">
                                             {log.rows_count.toLocaleString()}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-8 py-4 whitespace-nowrap">
                                             <span
-                                                className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
-                                                    log.status
-                                                )}`}
+                                                className={`px-3 py-1 text-xs font-bold rounded-md border inline-block ${log.status === 'SUCCESS' ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20'}`}
                                             >
                                                 {log.status}
                                             </span>
                                             {log.error_message && (
-                                                <div className="text-xs text-red-500 dark:text-red-400 mt-1 max-w-xs truncate" title={log.error_message}>
+                                                <div className="text-xs text-red-600 dark:text-red-400 mt-2 max-w-xs truncate font-medium bg-red-500/5 px-2 py-1 rounded" title={log.error_message}>
                                                     {log.error_message}
                                                 </div>
                                             )}

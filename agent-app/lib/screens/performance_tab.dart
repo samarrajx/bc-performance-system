@@ -16,18 +16,63 @@ class _PerformanceTabState extends State<PerformanceTab> {
   Map<String, dynamic>? _data;
   bool _isLoading = false;
 
+  Map<String, dynamic>? _agentProfile;
+  String? _deviceId;
+  
   @override
   void initState() {
     super.initState();
-    _fetchLatestDate();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    setState(() => _isLoading = true);
+    await _fetchAgentProfile();
+    await _fetchLatestDate();
+    if (mounted) setState(() => _isLoading = false);
+  }
+
+  Future<void> _fetchAgentProfile() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user?.email == null) return;
+      final agentId = user!.email!.split('@')[0];
+
+      final agentResponse = await Supabase.instance.client
+          .from('agents')
+          .select()
+          .ilike('agent_id', agentId)
+          .maybeSingle();
+      
+      _agentProfile = agentResponse;
+      
+      // Normalize Device ID
+      var deviceId = _agentProfile?['assigned_device_id']?.toString() ?? '';
+      if (deviceId.length == 9) {
+        deviceId = '0$deviceId';
+      }
+      _deviceId = deviceId;
+      print('DEBUG: PerformanceTab Device ID: $_deviceId');
+
+    } catch (e) {
+      debugPrint('Error fetching agent profile: $e');
+    }
   }
 
   Future<void> _fetchLatestDate() async {
-    setState(() => _isLoading = true);
     try {
-      final response = await Supabase.instance.client
+      // 1. Start Query
+      var query = Supabase.instance.client
           .from('daily_performance')
-          .select('date')
+          .select('date');
+
+      // 2. Apply Filters
+      if (_deviceId != null && _deviceId!.isNotEmpty) {
+        query = query.eq('device_id', _deviceId!);
+      }
+
+      // 3. Apply Ordering/Limit & Execute
+      final response = await query
           .order('date', ascending: false)
           .limit(1)
           .maybeSingle();
@@ -40,7 +85,7 @@ class _PerformanceTabState extends State<PerformanceTab> {
         await _fetchData(DateTime.now());
       }
     } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
+      debugPrint('Error fetching latest date: $e');
     }
   }
 
@@ -48,11 +93,17 @@ class _PerformanceTabState extends State<PerformanceTab> {
     setState(() => _isLoading = true);
     try {
       final dateStr = DateFormat('yyyy-MM-dd').format(date);
-      final response = await Supabase.instance.client
+      
+      var query = Supabase.instance.client
           .from('daily_performance')
           .select()
-          .eq('date', dateStr)
-          .maybeSingle();
+          .eq('date', dateStr);
+
+      if (_deviceId != null && _deviceId!.isNotEmpty) {
+         query = query.eq('device_id', _deviceId!);
+      }
+      
+      final response = await query.maybeSingle();
       
       if (mounted) {
         setState(() {

@@ -103,10 +103,42 @@ export default function CommissionUploadPage() {
             const workbook = XLSX.read(arrayBuffer);
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
-            const rawData = XLSX.utils.sheet_to_json(sheet);
+
+            // --- Custom Excel Parsing for Duplicate Headers ---
+            const rawArrayData = XLSX.utils.sheet_to_json<any[]>(sheet, { header: 1 });
+
+            if (!rawArrayData || rawArrayData.length < 2) {
+                setMessage({ type: "error", text: "File is empty or invalid" });
+                setLoading(false);
+                return;
+            }
+
+            let commAcctOpnCount = 0;
+            const processedHeaders = (rawArrayData[0] || []).map(h => {
+                const trimmed = String(h || "").trim();
+                if (trimmed === 'COMM_ACCT_OPN') {
+                    commAcctOpnCount++;
+                    if (commAcctOpnCount === 1) return 'NON_FUNDED_COMM_ACCT_OPN';
+                    if (commAcctOpnCount === 2) return 'FUNDED_COMM_ACCT_OPN';
+                    if (commAcctOpnCount === 3) return 'TOTAL_COMM_ACCT_OPN';
+                }
+                return trimmed;
+            });
+
+            const rawData: any[] = [];
+            for (let i = 1; i < rawArrayData.length; i++) {
+                const rowArr = rawArrayData[i];
+                if (!rowArr || rowArr.length === 0) continue;
+
+                const rowObj: any = {};
+                processedHeaders.forEach((header, index) => {
+                    rowObj[header] = rowArr[index];
+                });
+                rawData.push(rowObj);
+            }
 
             if (!rawData || rawData.length === 0) {
-                setMessage({ type: "error", text: "File is empty or invalid" });
+                setMessage({ type: "error", text: "File has no valid data rows" });
                 setLoading(false);
                 return;
             }
@@ -225,37 +257,47 @@ export default function CommissionUploadPage() {
     return (
         <AdminLayout>
             <div className="max-w-4xl">
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text text-transparent mb-2">
-                        Commission Upload
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Upload and process commission data for agents
-                    </p>
+                <div className="mb-8 max-w-2xl flex justify-between items-start w-full">
+                    <div>
+                        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent mb-2 tracking-tight">
+                            Commission Upload
+                        </h1>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium">
+                            Upload and process commission data for agents
+                        </p>
+                    </div>
+                    <a
+                        href="/sample_commission.csv"
+                        download
+                        className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 dark:bg-slate-200 dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center gap-2 text-sm"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        Download Sample
+                    </a>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+                <div className="glass-panel p-8 rounded-3xl">
                     {/* Month and Year Selection */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                                 Select Month
                             </label>
                             <select
                                 value={selectedMonth}
                                 onChange={(e) => setSelectedMonth(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300 disabled:opacity-50"
                                 disabled={loading}
                             >
-                                <option value="">Choose a month</option>
+                                <option value="" className="dark:bg-slate-900">Choose a month</option>
                                 {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
-                                    <option key={m} value={m}>{getMonthName(m)}</option>
+                                    <option key={m} value={m} className="dark:bg-slate-900">{getMonthName(m)}</option>
                                 ))}
                             </select>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                                 Select Year
                             </label>
                             <input
@@ -265,7 +307,7 @@ export default function CommissionUploadPage() {
                                 min="2020"
                                 max="2100"
                                 placeholder="e.g., 2024"
-                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                className="w-full px-4 py-3 bg-white/50 dark:bg-black/50 border border-white/20 dark:border-white/10 rounded-xl focus:bg-white/80 dark:focus:bg-black/80 focus:ring-2 focus:ring-emerald-500/50 outline-none font-medium text-slate-800 dark:text-slate-200 shadow-inner transition-all duration-300 disabled:opacity-50 placeholder-slate-400"
                                 disabled={loading}
                             />
                         </div>
@@ -273,7 +315,7 @@ export default function CommissionUploadPage() {
 
                     {/* File Upload */}
                     <div className="mb-6">
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                             Upload Commission File
                         </label>
                         <div className="relative">
@@ -285,20 +327,20 @@ export default function CommissionUploadPage() {
                                     if (file) handleFile(file);
                                 }}
                                 disabled={loading || !selectedMonth || !selectedYear}
-                                className="w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-orange-500 dark:hover:border-orange-500 focus:outline-none focus:border-orange-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 dark:file:bg-orange-900/20 file:text-orange-700 dark:file:text-orange-300 hover:file:bg-orange-100 dark:hover:file:bg-orange-900/40 disabled:opacity-50 disabled:cursor-not-allowed text-gray-600 dark:text-gray-300"
+                                className="w-full px-4 py-8 border-2 border-dashed border-emerald-500/30 dark:border-emerald-500/20 rounded-2xl cursor-pointer hover:border-emerald-500 dark:hover:border-emerald-500 focus:outline-none focus:border-emerald-500 transition-all bg-white/30 dark:bg-black/20 file:mr-4 file:py-2 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-emerald-500 file:text-white hover:file:bg-emerald-600 file:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-slate-600 dark:text-slate-300 text-center"
                             />
                         </div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 font-medium text-center">
                             Supported formats: .xlsx, .xls, .csv
                         </p>
                     </div>
 
                     {/* Loading State */}
                     {loading && (
-                        <div className="flex items-center justify-center py-8">
+                        <div className="flex items-center justify-center py-10 glass-panel rounded-2xl mb-6">
                             <div className="text-center">
-                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-                                <p className="text-gray-600 dark:text-gray-300 font-medium">Processing your file...</p>
+                                <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500/30 border-t-emerald-600 mx-auto mb-4"></div>
+                                <p className="text-slate-500 dark:text-slate-400 font-medium animate-pulse">Processing your file...</p>
                             </div>
                         </div>
                     )}
@@ -306,20 +348,20 @@ export default function CommissionUploadPage() {
                     {/* Messages */}
                     {message && (
                         <div
-                            className={`p-4 rounded-lg border ${message.type === "success"
-                                ? "bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300"
-                                : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300"
+                            className={`p-4 rounded-2xl border ${message.type === "success"
+                                ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400"
+                                : "bg-red-500/10 border-red-500/20 text-red-700 dark:text-red-400"
                                 }`}
                         >
                             <div className="flex items-start gap-3">
                                 <span className="text-xl">
-                                    {message.type === "success" ? "✓" : "⚠"}
+                                    {message.type === "success" ? "✅" : "⚠️"}
                                 </span>
                                 <div className="flex-1">
-                                    <p className="font-semibold mb-1">
+                                    <p className="font-bold mb-1">
                                         {message.type === "success" ? "Success!" : "Error"}
                                     </p>
-                                    <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                                    <p className="text-sm whitespace-pre-wrap font-medium">{message.text}</p>
                                 </div>
                             </div>
                         </div>

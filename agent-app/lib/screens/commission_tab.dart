@@ -52,7 +52,7 @@ class _CommissionTabState extends State<CommissionTab> {
       final response = await Supabase.instance.client
           .from('commissions')
           .select()
-          .eq('agent_id', agentId)
+          .ilike('agent_id', agentId)
           .eq('month', _selectedMonth)
           .eq('year', _selectedYear)
           .eq('approved', true) // RLS handles this too, but explicit check implies logic
@@ -265,6 +265,8 @@ class _CommissionTabState extends State<CommissionTab> {
               _buildRow('PMJBY (${_commission!['pmjby_count']})', _commission!['pmjby_comm']),
               _buildRow('PMSBY (${_commission!['pmsby_count']})', _commission!['pmsby_comm']),
               _buildRow('Re-KYC (${_commission!['rekyc_count']})', _commission!['rekyc_comm']),
+              _buildRow('Fixed Commission', _commission!['fixed_commission']),
+              _buildRow('10% INCENTIVE for SSS', _commission!['sss_incentive']),
               
               const SizedBox(height: 40),
             ],
@@ -296,6 +298,19 @@ class _CommissionTabState extends State<CommissionTab> {
   }
 
   Widget _buildRow(String label, dynamic value) {
+    // Determine the numeric value
+    double numericValue = 0.0;
+    if (value != null) {
+      if (value is num) {
+        numericValue = value.toDouble();
+      } else if (value is String) {
+        numericValue = double.tryParse(value) ?? 0.0;
+      }
+    }
+    
+    // Deduct 20% (Corporate Share) to show Agent Share (80%)
+    double agentShare = numericValue * 0.8;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -303,7 +318,7 @@ class _CommissionTabState extends State<CommissionTab> {
         children: [
           Text(label, style: GoogleFonts.outfit(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant)),
           Text(
-            _formatCurrency(value ?? 0),
+            _formatCurrency(agentShare),
             style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurface),
           ),
         ],

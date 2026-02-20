@@ -46,19 +46,41 @@ class _HomeTabState extends State<HomeTab> {
       if (user?.email == null) return;
       final agentId = user!.email!.split('@')[0];
 
-      // 1. Fetch Agent Profile
+      print('DEBUG: Extracted Agent ID from email: $agentId');
+
+      // 1. Fetch Agent Profile (Case-insensitive)
       final agentResponse = await Supabase.instance.client
           .from('agents')
           .select()
-          .eq('agent_id', agentId)
+          .ilike('agent_id', agentId) // Case-insensitive match
           .maybeSingle();
+      
+      print('DEBUG: Agent Profile Response: $agentResponse');
       
       _agentProfile = agentResponse;
 
       // 2. Fetch Latest Daily Performance (For "Today" default)
-      final latestPerf = await Supabase.instance.client
+      var deviceId = _agentProfile?['assigned_device_id']?.toString() ?? '';
+      print('DEBUG: Raw Device ID from Profile: $deviceId');
+
+      // Robustness: If ID is 9 digits, it likely had a leading zero stripped.
+      // We try to query with the leading zero.
+      if (deviceId.length == 9) {
+        deviceId = '0$deviceId';
+        print('DEBUG: Normalized Device ID (added 0): $deviceId');
+      }
+      
+      var query = Supabase.instance.client
           .from('daily_performance')
-          .select()
+          .select();
+          
+      if (deviceId.isNotEmpty) {
+        // We use LTRIM logic on client side query too (?) No, Supabase doesn't support complex filter func easily in client lib
+        // So we assume daily_performance has the CORRECT (zero-padded) ID.
+        query = query.eq('device_id', deviceId); 
+      }
+      
+      final latestPerf = await query
           .order('date', ascending: false)
           .limit(1)
           .maybeSingle();
@@ -67,8 +89,7 @@ class _HomeTabState extends State<HomeTab> {
         _dailyStats = latestPerf;
         _todayViewDate = DateTime.parse(latestPerf['date']);
       } else {
-        // Fallback: Try fetching for actual today if DB is empty? 
-        // Or just leave it as null
+        // Fallback or empty state
       }
 
       // 3. Pre-fetch Month Data for current month
@@ -85,11 +106,17 @@ class _HomeTabState extends State<HomeTab> {
     setState(() => _isLoading = true);
     try {
       final dateStr = DateFormat('yyyy-MM-dd').format(date);
+      var deviceId = _agentProfile?['assigned_device_id']?.toString() ?? '';
+      if (deviceId.length == 9) deviceId = '0$deviceId';
+
+      if (deviceId.isEmpty) return;
+
       final response = await Supabase.instance.client
           .from('daily_performance')
           .select()
           .eq('date', dateStr)
-          .maybeSingle(); // RLS handles device_id filter
+          .eq('device_id', deviceId) // Explicit filter with normalized ID
+          .maybeSingle();
       
       setState(() {
         _dailyStats = response;
@@ -112,11 +139,17 @@ class _HomeTabState extends State<HomeTab> {
       final startStr = DateFormat('yyyy-MM-dd').format(startOfMonth);
       final endStr = DateFormat('yyyy-MM-dd').format(endOfMonth);
 
+      var deviceId = _agentProfile?['assigned_device_id']?.toString() ?? '';
+      if (deviceId.length == 9) deviceId = '0$deviceId';
+
+      if (deviceId.isEmpty) return;
+
       final response = await Supabase.instance.client
           .from('daily_performance')
           .select()
           .gte('date', startStr)
-          .lte('date', endStr);
+          .lte('date', endStr)
+          .eq('device_id', deviceId);
       
       setState(() {
         _monthDailyRecords = response as List<dynamic>;
@@ -263,7 +296,6 @@ class _HomeTabState extends State<HomeTab> {
             // Aggregate from Daily (Provisional)
             for (var row in _monthDailyRecords) {
                 apy += (row['apy_count'] ?? 0) as int;
-                pmsby += (row['pmsby_count'] ?? 0) as int;
                 pmsby += (row['pmsby_count'] ?? 0) as int;
                 pmjby += (row['pmjby_count'] ?? 0) as int;
                 pmjdy += (row['online_account_count'] ?? 0) as int;
@@ -644,8 +676,6 @@ class _HomeTabState extends State<HomeTab> {
               const SizedBox(height: 24),
               
               _buildSchemeCard('APY', counts['apy']!, Icons.savings_outlined, Colors.purple),
-              const SizedBox(height: 12),
-              _buildSchemeCard('PMJBY', counts['pmjby']!, Icons.health_and_safety_outlined, Colors.blue),
               const SizedBox(height: 12),
               _buildSchemeCard('PMJBY', counts['pmjby']!, Icons.health_and_safety_outlined, Colors.blue),
               const SizedBox(height: 12),
